@@ -32,3 +32,25 @@ int main(){
     printf("%s\n",reverseString(str));
 	return 0;   
 }    
+
+
+----
+method2:
+char* reverseString(char* moves) {
+	 int len=strlen(moves);
+	 printf("%s %d\n",moves,len);
+	 char *start = moves;
+	 char *end = &moves[len-1];
+	 
+	 char temp;
+	 while(start < end)
+	 {
+	 	temp = *end;
+	 	*end = *start;
+	 	*start = temp;
+	 	start++;
+	 	end --;
+	 }
+	 
+	 return moves;
+}
