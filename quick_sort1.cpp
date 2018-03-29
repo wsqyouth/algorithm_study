@@ -1,5 +1,12 @@
-#include <stdio.h>
+https://www.cnblogs.com/sdlwlxf/p/5131793.html
+https://blog.csdn.net/superinzaghi747/article/details/52765555
+https://www.cnblogs.com/zuilehongdou/p/6197716.html
+http://haoyuanliu.github.io/2016/12/18/Partition%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/
+http://blog.jobbole.com/105219/
+http://www.jobbole.com/members/xuelang/
+https://www.cnblogs.com/sunniest/archive/2015/06/30/4610408.html
 
+#include <stdio.h>
 #include <vector>
 #include <stack>
 #include <iostream>
