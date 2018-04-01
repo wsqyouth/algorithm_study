@@ -90,31 +90,32 @@ int main()
 
 ----
 基于快排Partiton思想 时间复杂度O(n)
+int Partition(vector<int> &nums, int begin, int end)
+{
+	int pivot = nums[begin];//第一个记录作为枢轴(也可是在begin和end之间的随机数)
+	while (begin < end)
 	{
-		int pivot = nums[begin];//第一个记录作为枢轴(也可是在begin和end之间的随机数)
-		while (begin < end)
+		while (begin < end && nums[end] >= pivot)
 		{
-			while (begin < end && nums[end] >= pivot)
-			{
-				end--;
-			}
-			nums[begin] = nums[end];//尾部找到小于pivot的值,移到低端
-	
-			while (begin < end && nums[begin] <= pivot)
-			{
-				begin++;
-			}
-			nums[end] = nums[begin];//头部找到大于pivot的值,移到高端
+			end--;
 		}
-		
-		nums[begin] = pivot;//枢轴基准归位
-	
-		return begin;
-	}
+		nums[begin] = nums[end];//尾部找到小于pivot的值,移到低端
 
+		while (begin < end && nums[begin] <= pivot)
+		{
+			begin++;
+		}
+		nums[end] = nums[begin];//头部找到大于pivot的值,移到高端
+	}
+	
+	nums[begin] = pivot;//枢轴基准归位
+
+	return begin;
+}
+
+
+vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
  
-	vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
-	 
 	int len=input.size();
 	if(len==0||k>len ||k<0) return vector<int>();
 	if(len==k) return input;
@@ -140,3 +141,4 @@ int main()
 	 
 	return res;
 }
+
