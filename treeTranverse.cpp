@@ -48,7 +48,7 @@ void posOrder(TreeNode* pHead){
     posOrder(pHead->right);
     cout<<pHead->val<<" ";//当前节点在其左右子节点之后访问，左-右-根
 }
-
+//从上往下打印出二叉树的每个节点，同层节点从左至右打印。
 void levelOrder(TreeNode *pHead){
     if(pHead==NULL) return;
     queue<TreeNode *> qu;
