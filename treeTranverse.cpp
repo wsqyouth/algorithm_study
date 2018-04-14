@@ -11,6 +11,7 @@
 层次遍历：8 3 10 1 6 15 
 
 ----
+
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -49,22 +50,26 @@ void posOrder(TreeNode* pHead){
     cout<<pHead->val<<" ";//当前节点在其左右子节点之后访问，左-右-根
 }
 //从上往下打印出二叉树的每个节点，同层节点从左至右打印。
-void levelOrder(TreeNode *pHead){
-    if(pHead==NULL) return;
-    queue<TreeNode *> qu;
-    qu.push(pHead);
-    while(!qu.empty())
+void levelOrder(TreeNode *pHead) {
+   
+    if(pHead==NULL) return ;
+    
+    deque<TreeNode *> dequeTreeNode;
+    dequeTreeNode.push_back(pHead);
+    while(!dequeTreeNode.empty())
     {
-        TreeNode *temp = qu.front();
+        TreeNode *temp = dequeTreeNode.front();
+        //push val to vector
         cout<<temp->val<<" ";
         if(temp->left != NULL)
-            qu.push(temp->left);
+            dequeTreeNode.push_back(temp->left);
         if(temp->right != NULL)
-            qu.push(temp->right);
-        qu.pop();
+            dequeTreeNode.push_back(temp->right);
+        dequeTreeNode.pop_front();
     }
-}
-
+        
+ }    
+ 
 int main(){
     TreeNode a(8);
     TreeNode b(3);
