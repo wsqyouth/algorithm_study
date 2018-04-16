@@ -70,6 +70,34 @@ void levelOrder(TreeNode *pHead) {
         
  }    
  
+//利用层次遍历，每一层计数并处理一次
+int TreeDepth(TreeNode *pRoot)
+{
+    if(!pRoot) return 0;
+    queue<TreeNode *> qu;
+    qu.push(pRoot);
+    int depth = 0;
+    while(!qu.empty())
+    {
+        int size = qu.size();
+        depth++;
+        for(int i=0;i<size;i++)
+        {
+            TreeNode *temp = qu.front();
+            cout<<"__"<<temp->val;
+            qu.pop();
+            
+            if(temp->left !=NULL)
+                qu.push(temp->left);
+            if(temp->right != NULL)
+                qu.push(temp->right);
+        }
+        cout<<endl;
+    }
+    return depth;
+}
+
+
 int main(){
     TreeNode a(8);
     TreeNode b(3);
