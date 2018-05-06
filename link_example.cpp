@@ -114,7 +114,21 @@ int main()
 		head = head->next;
 	} 
 		
+	/*
+	ListNode n1(1);
+	ListNode n2(1);
+	ListNode n3(1);		
+	ListNode n4(3);	
+	ListNode n5(3);
+	ListNode n6(6);
 	
-
+	n1.next = &n2;
+	n2.next = &n3;
+	n3.next = &n4;
+	n4.next = &n5;
+        n5.next = &n6;
+	
+	solve.printNode(&n1);
+        */
 	return 0;
 }
