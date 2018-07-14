@@ -125,8 +125,9 @@ int main(void) {
 
 
 
-C++版本(主函数有问题？)
+C++版本(KMP没有返回值，可修改)
 ------
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -138,7 +139,7 @@ int ViolentMatch(string &s, string &p)
 {
 	int sLen = s.size();
 	int pLen = p.size();
- 
+
 	int i = 0;
 	int j = 0;
 	while (i < sLen && j < pLen)
@@ -165,96 +166,114 @@ int ViolentMatch(string &s, string &p)
 
 void getNext(const string &substr, vector<int> &next)
 {
-    next.clear();
-    next.resize(substr.size());
-   
-   
-    int j = 0;
-    int k = -1;
-    next[0] = -1;
-    
-    while(j<substr.size()-1)
-    {
-    	if(k==-1 || substr[j]==substr[k])
-    	{
-    	    ++j;
-    	    ++k;
-    	    next[j] = k;
-    	
-    	}else
-    	{
-    	    k = next[k];
-    	}
-    }
+	next.clear();
+	next.resize(substr.size());
+
+
+	int j = 0;
+	int k = -1;
+	next[0] = -1;
+
+	while (j<substr.size() - 1)
+	{
+		if (k == -1 || substr[j] == substr[k])
+		{
+			++j;
+			++k;
+			next[j] = k;
+
+		}
+		else
+		{
+			k = next[k];
+		}
+	}
 }
 void getNextVal(const string &substr, vector<int> &next)
 {
-    next.clear();
-    next.resize(substr.size());
-   
-   
-    int j = 0;
-    int k = -1;
-    next[0] = -1;
-    
-    while(j<substr.size()-1)
-    {
-    	if(k ==-1 || substr[j]==substr[k])
-    	{
-    	    ++j;
-    	    ++k;
-    	    if(substr[j]==substr[k])
-    	    {
-    	    	next[j] = next[k];
-    	    }else {
-    	    	next[j] = k;
-    	    }
-    	}
-    	else
-    	{
-    	    k = next[k];
-    	}
-    }
+	next.clear();
+	next.resize(substr.size());
+
+
+	int j = 0;
+	int k = -1;
+	next[0] = -1;
+
+	while (j<substr.size() - 1)
+	{
+		if (k == -1 || substr[j] == substr[k])
+		{
+			++j;
+			++k;
+			if (substr[j] == substr[k])
+			{
+				next[j] = next[k];
+			}
+			else {
+				next[j] = k;
+			}
+		}
+		else
+		{
+			k = next[k];
+		}
+	}
 }
 void printVec(vector<int> & vec)
 {
-    for(vector<int>::iterator it = vec.begin();it!=vec.end();++it)
-        cout<<*it<<" ";
-    cout<<endl;
+	for (vector<int>::iterator it = vec.begin(); it != vec.end(); ++it)
+		cout << *it << " ";
+	cout << endl;
 }
 
 void kmp(const string &str, const string &substr, vector<int> &next)
 {
-    int cnt = 0;
-    
-    //getNext(substr, next);
-    getNextVal(substr, next);
-    
-    int j = -1;
-    for(int i = 0; i < str.size(); ++i)
-    {
-        while(j > -1 && substr[j + 1] != str[i])
-            j = next[j];
-        if(substr[j + 1] == str[i])
-            ++j;
-        if(j == substr.size() - 1)
-        {
-            cout << "find in position" << i << endl;
-            ++cnt;
-            j = next[j];
-        }
-    }
-    if(cnt == 0)
-        cout << "not find" << endl;
+	int sLen = str.size();
+	int pLen = substr.size();
+
+	//getNext(substr, next);
+	getNextVal(substr, next);
+
+	int j = 0;
+	int i = 0;
+	while (i < sLen && j<pLen)
+	{
+		if (j == -1 || str[i] == substr[j])
+		{
+			i++;
+			j++;
+		}
+		else
+		{
+			j = next[j];
+		}
+		/*
+		if (j == pLen)
+		{
+			cout << "find in position at:" << i - j << endl;
+			//假设查找多处，由于i已经移动到下一个位置了，无需考虑，仅将j=0重新查找即可
+			j = 0;
+		}
+		*/
+
+	}
+	//仅仅查找第一个匹配的字符串
+	if (j == pLen)
+	{
+		cout << "find in position at:" << i - j << endl;
+	}
+	
+
 }
 int main()
 {
-    string str, substr;
-    cin >> str >> substr;
-    vector<int> next;
-    //kmp(str, substr, next);
-    cout<<ViolentMatch(str, substr);
-    return 0;
+	string str = "abacABCababcabababab";
+	string substr = "abab";
+	//cin >> str >> substr;
+	vector<int> next;
+	kmp(str, substr, next);
+	cout << ViolentMatch(str, substr);
+	return 0;
 }
 
 
