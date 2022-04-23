@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	deleteDuplicatesTest()
+	mergeTwoListsTest()
 }
 
 func twoSumTest() {
@@ -68,5 +68,13 @@ func reverseBetweenTest() {
 func deleteDuplicatesTest() {
 	list := structures.Ints2List([]int{1, 1})
 	resList := deleteDuplicatesII(list)
+	structures.PrintList(resList)
+}
+
+func mergeTwoListsTest() {
+	list1 := structures.Ints2List([]int{1, 1, 2})
+	list2 := structures.Ints2List([]int{2, 3, 4, 5})
+
+	resList := mergeTwoLists(list1, list2)
 	structures.PrintList(resList)
 }

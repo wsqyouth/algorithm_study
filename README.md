@@ -434,7 +434,7 @@ LeetCode
 | |24| [Swap Nodes in Pairs](https://leetcode.com/problems/swap-nodes-in-pairs/)| Medium || |
 | |23| [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)| Hard || |
 | |22| [Generate Parentheses](https://leetcode.com/problems/generate-parentheses/)| Medium || |
-| |21| [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/)| Easy || |
+| |21| [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/)| Easy |&hearts;| |
 | |20| [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)| Easy ||&hearts; |
 | |19| [Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)| Easy |&hearts;| |
 | |18| [4Sum](https://leetcode.com/problems/4sum/)| Medium || &hearts;|
