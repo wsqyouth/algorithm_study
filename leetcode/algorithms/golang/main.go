@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	oddEvenListTest()
+	removeElementsTest()
 }
 
 func twoSumTest() {
@@ -29,6 +29,27 @@ func middleNodeTest() {
 
 func oddEvenListTest() {
 	list := structures.Ints2List([]int{2, 1, 3, 5, 6, 4, 7})
-	middList := oddEvenList(list)
-	structures.PrintList(middList)
+	resList := oddEvenList(list)
+	structures.PrintList(resList)
+}
+
+func deleteNodeTest() {
+	list := structures.Ints2List([]int{4, 5, 1, 9})
+	current := list
+	var deleteNodePointer *structures.ListNode
+	for current != nil {
+		if current.Val == 5 {
+			deleteNodePointer = current
+			break
+		}
+		current = current.Next
+	}
+	deleteNode(deleteNodePointer)
+	structures.PrintList(list)
+}
+
+func removeElementsTest() {
+	list := structures.Ints2List([]int{7, 7, 7, 7})
+	resList := removeElements(list, 7)
+	structures.PrintList(resList)
 }

@@ -234,7 +234,7 @@ LeetCode
 | |240| [Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/)| Medium || |
 | |239| [Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/)| Hard || |
 | |238| [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/)| Medium || |
-| |237| [Delete Node in a Linked List](https://leetcode.com/problems/delete-node-in-a-linked-list/)| Easy || |
+| |237| [Delete Node in a Linked List](https://leetcode.com/problems/delete-node-in-a-linked-list/)| Easy |&hearts;| |
 | |236| [Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)| Medium || |
 | |235| [Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/)| Easy || |
 | |234| [Palindrome Linked List](https://leetcode.com/problems/palindrome-linked-list/)| Easy || |
@@ -268,7 +268,7 @@ LeetCode
 | |206| [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)| Easy || |
 | |205| [Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)| Easy || |
 | |204| [Count Primes](https://leetcode.com/problems/count-primes/)| Easy || |
-| |203| [Remove Linked List Elements](https://leetcode.com/problems/remove-linked-list-elements/)| Easy || |
+| |203| [Remove Linked List Elements](https://leetcode.com/problems/remove-linked-list-elements/)| Easy |&hearts;| |
 | |202| [Happy Number](https://leetcode.com/problems/happy-number/)| Easy || |
 | |201| [Bitwise AND of Numbers Range](https://leetcode.com/problems/bitwise-and-of-numbers-range/)| Medium || |
 | |200| [Number of Islands](https://leetcode.com/problems/number-of-islands/)| Medium || |
