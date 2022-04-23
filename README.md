@@ -82,7 +82,7 @@ LeetCode
 | |922| [Sort Array By Parity II](https://leetcode.com/problems/sort-array-by-parity-ii/) | Easy || |
 | |914| [X of a Kind in a Deck of Cards](https://leetcode.com/problems/x-of-a-kind-in-a-deck-of-cards/) | Easy || |
 | |905| [Sort Array By Parity](https://leetcode.com/problems/sort-array-by-parity/) | Easy || |
-| |876| [Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/) | Easy || |
+| |876| [Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/) | Easy | &hearts;| |
 | |859| [Buddy Strings](https://leetcode.com/problems/buddy-strings/description/) | Easy || |
 | |858| [Mirror Reflection](https://leetcode.com/problems/mirror-reflection/description/) | Medium || |
 | |852| [Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/description/) | Easy || |
@@ -436,7 +436,7 @@ LeetCode
 | |22| [Generate Parentheses](https://leetcode.com/problems/generate-parentheses/)| Medium || |
 | |21| [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/)| Easy || |
 | |20| [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)| Easy ||&hearts; |
-| |19| [Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)| Easy || |
+| |19| [Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)| Easy |&hearts;| |
 | |18| [4Sum](https://leetcode.com/problems/4sum/)| Medium || &hearts;|
 | |17| [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/)| Medium || |
 | |16| [3Sum Closest](https://leetcode.com/problems/3sum-closest/)| Medium || |

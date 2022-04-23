@@ -1,9 +1,13 @@
 package structures
 
+import (
+	"fmt"
+)
+
 //   Definition for singly-linked list.
 type ListNode struct {
 	Val  int
-	Next ListNode
+	Next *ListNode
 }
 
 // Ints2List convert []int to List
@@ -13,7 +17,7 @@ func Ints2List(nums []int) *ListNode {
 	}
 
 	list := &ListNode{}
-	t := l
+	t := list
 	for _, v := range nums {
 		t.Next = &ListNode{Val: v}
 		t = t.Next
@@ -38,4 +42,17 @@ func List2Ints(head *ListNode) []int {
 		head = head.Next
 	}
 	return res
+}
+
+// 辅助打印功能键
+func PrintList(head *ListNode) {
+	for head != nil {
+		if head.Next == nil {
+			fmt.Printf("%v", head.Val)
+		} else {
+			fmt.Printf("%v->", head.Val)
+		}
+		head = head.Next
+	}
+	fmt.Println(" ")
 }

@@ -2,36 +2,68 @@ package main
 
 import (
 	"fmt"
+	"github.com/wsqyouth/algorithm_study/leetcode/algorithms/golang/structures"
 )
 
-func main() {
-	nums := []int{3, 2, 4}
-	fmt.Println(twoSum(nums, 6))
-	fmt.Println(twoSumNew(nums, 6))
+// ListNode define
+type ListNode = structures.ListNode
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+// removeNthFromEnd 快慢指针法
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	dummyHead := &ListNode{Next: head}
+	preSlow, slow, fast := dummyHead, head, head //秒
+	for fast != nil {
+		if n <= 0 { //快指针先走了n步后,慢指针开始走,同时记录慢指针的上一个节点
+			preSlow = slow
+			slow = slow.Next
+		}
+		n--
+		fast = fast.Next
+	}
+	preSlow.Next = slow.Next
+	slow.Next = nil
+	return dummyHead.Next
 }
 
-func twoSum(nums []int, target int) []int {
-	var targetIndex []int
-	for i := 0; i < len(nums)-1; i++ {
-		for j := i + 1; j < len(nums); j++ {
-			if nums[i]+nums[j] == target {
-				targetIndex = append(targetIndex, i, j)
-				return targetIndex
-			}
-		}
+// removeNthFromEnd1 先记录总数,之后重新记录
+func removeNthFromEnd1(head *ListNode, n int) *ListNode {
+	if head == nil {
+		return nil
 	}
-	return nil
-}
-
-// 将数据和索引记录下来，遍历时检查是否在map中
-func twoSumNew(nums []int, target int) []int {
-	m := make(map[int]int)
-	for i := 0; i < len(nums); i++ {
-		another := target - nums[i]
-		if _, ok := m[another]; ok {
-			return []int{m[another], i}
-		}
-		m[nums[i]] = i
+	if n <= 0 {
+		return head
 	}
-	return nil
+	len := 0
+	current := head
+	for current != nil {
+		len++
+		current = current.Next
+	}
+	fmt.Println(len)
+	if n == len {
+		deleteNode := head
+		head = head.Next
+		deleteNode.Next = nil
+		return head
+	}
+	i := 0
+	current = head
+	for current != nil {
+		if i == len-n-1 {
+			deleteNode := current.Next
+			current.Next = current.Next.Next
+			deleteNode.Next = nil
+			break
+		}
+		i++
+		current = current.Next
+	}
+	return head
 }

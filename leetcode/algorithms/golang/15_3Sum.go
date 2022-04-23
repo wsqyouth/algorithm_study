@@ -5,11 +5,11 @@ import (
 	"sort"
 )
 
-func main() {
-	//nums:=[]int{-1,0,1,2,-1,-4}
-	nums := []int{-4, -2, 1, -5, -4, -4, 4, -2, 0, 4, 0, -2, 3, 1, -5, 0}
-	fmt.Println(threeSum(nums))
-}
+// func main() {
+// 	//nums:=[]int{-1,0,1,2,-1,-4}
+// 	nums := []int{-4, -2, 1, -5, -4, -4, 4, -2, 0, 4, 0, -2, 3, 1, -5, 0}
+// 	fmt.Println(threeSum(nums))
+// }
 
 func threeSum(nums []int) [][]int {
 	result := make([][]int, 0)
