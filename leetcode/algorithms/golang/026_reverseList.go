@@ -1,8 +1,8 @@
 package main
 
 import (
-// "fmt"
-// "github.com/wsqyouth/algorithm_study/leetcode/algorithms/golang/structures"
+	"fmt"
+	// "github.com/wsqyouth/algorithm_study/leetcode/algorithms/golang/structures"
 )
 
 // ListNode define
@@ -67,5 +67,54 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 	// 组装
 	tempCur.Next = current.Next
 	preLeft.Next = tempHead.Next
+	return dummyHead.Next
+}
+
+// 删除重复的元素[保留一个] 11233  => 123
+func deleteDuplicates(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	newHead := &ListNode{Val: head.Val}
+	slow, fast := newHead, head
+	for fast != nil {
+		if fast.Val != slow.Val {
+			fmt.Println(fast.Val, slow.Val)
+			slow.Next = &ListNode{Val: fast.Val}
+			slow = slow.Next
+		}
+		fast = fast.Next
+	}
+	return newHead
+}
+
+// 删除重复的元素[一个也不留] 11123  => 23
+func deleteDuplicatesII(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	dummyHead := &ListNode{Next: head} //若重复仍去掉
+	newCurrent := dummyHead
+	count := 1
+
+	slow, fast := head, head.Next
+	for fast != nil {
+		if fast.Val == slow.Val {
+			count++
+		} else {
+			fmt.Println(fast.Val, slow.Val)
+			if count > 1 {
+				newCurrent.Next = fast //妙
+			} else {
+				newCurrent = newCurrent.Next
+			}
+			slow = fast
+			count = 1
+		}
+		fast = fast.Next
+	}
+	if count > 1 {
+		newCurrent.Next = nil
+	}
 	return dummyHead.Next
 }

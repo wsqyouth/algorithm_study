@@ -372,8 +372,8 @@ LeetCode
 | |86| [Partition List](https://leetcode.com/problems/partition-list/)| Medium || |
 | |85| [Maximal Rectangle](https://leetcode.com/problems/maximal-rectangle/)| Hard || |
 | |84| [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/)| Hard || |
-| |83| [Remove Duplicates from Sorted List](https://leetcode.com/problems/remove-duplicates-from-sorted-list/)| Easy || |
-| |82| [Remove Duplicates from Sorted List II](https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/)| Medium || |
+| |83| [Remove Duplicates from Sorted List](https://leetcode.com/problems/remove-duplicates-from-sorted-list/)| Easy |&hearts;| |
+| |82| [Remove Duplicates from Sorted List II](https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/)| Medium |&hearts;| |
 | |81| [Search in Rotated Sorted Array II](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/)| Medium || |
 | |80| [Remove Duplicates from Sorted Array II](https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/)| Medium || |
 | |79| [Word Search](https://leetcode.com/problems/word-search/)| Medium || |
