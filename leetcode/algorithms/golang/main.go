@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	removeElementsTest()
+	reverseBetweenTest()
 }
 
 func twoSumTest() {
@@ -51,5 +51,16 @@ func deleteNodeTest() {
 func removeElementsTest() {
 	list := structures.Ints2List([]int{7, 7, 7, 7})
 	resList := removeElements(list, 7)
+	structures.PrintList(resList)
+}
+func reverseListTest() {
+	list := structures.Ints2List([]int{1, 2})
+	resList := reverseList(list)
+	structures.PrintList(resList)
+}
+
+func reverseBetweenTest() {
+	list := structures.Ints2List([]int{1, 2, 3, 4, 5})
+	resList := reverseBetween(list, 2, 4)
 	structures.PrintList(resList)
 }

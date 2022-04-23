@@ -265,7 +265,7 @@ LeetCode
 | |209| [Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)| Medium || |
 | |208| [Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/)| Medium || |
 | |207| [Course Schedule](https://leetcode.com/problems/course-schedule/)| Medium || |
-| |206| [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)| Easy || |
+| |206| [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)| Easy |&hearts;| |
 | |205| [Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)| Easy || |
 | |204| [Count Primes](https://leetcode.com/problems/count-primes/)| Easy || |
 | |203| [Remove Linked List Elements](https://leetcode.com/problems/remove-linked-list-elements/)| Easy |&hearts;| |
@@ -363,7 +363,7 @@ LeetCode
 | |95| [Unique Binary Search Trees II](https://leetcode.com/problems/unique-binary-search-trees-ii/)| Medium || |
 | |94| [Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/)| Medium || |
 | |93| [Restore IP Addresses](https://leetcode.com/problems/restore-ip-addresses/)| Medium || |
-| |92| [Reverse Linked List II](https://leetcode.com/problems/reverse-linked-list-ii/)| Medium || |
+| |92| [Reverse Linked List II](https://leetcode.com/problems/reverse-linked-list-ii/)| Medium |&hearts;| |
 | |91| [Decode Ways](https://leetcode.com/problems/decode-ways/)| Medium || |
 | |90| [Subsets II](https://leetcode.com/problems/subsets-ii/)| Medium || |
 | |89| [Gray Code](https://leetcode.com/problems/gray-code/)| Medium || |
