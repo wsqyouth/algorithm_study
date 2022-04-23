@@ -187,7 +187,7 @@ LeetCode
 | |331| [Verify Preorder Serialization of a Binary Tree](https://leetcode.com/problems/verify-preorder-serialization-of-a-binary-tree/) | Medium || |
 | |330| [Patching Array](https://leetcode.com/problems/patching-array/) | Medium || |
 | |329| [Longest Increasing Path in a Matrix](https://leetcode.com/problems/longest-increasing-path-in-a-matrix/) | Medium || |
-| |328| [Odd Even Linked List](https://leetcode.com/problems/odd-even-linked-list/) | Easy || |
+| |328| [Odd Even Linked List](https://leetcode.com/problems/odd-even-linked-list/) | Easy |&hearts;| |
 | |327| [Count of Range Sum](https://leetcode.com/problems/count-of-range-sum/) | Hard || |
 | |326| [Power of Three](https://leetcode.com/problems/power-of-three/) | Easy || |
 | |324| [Wiggle Sort II](https://leetcode.com/problems/wiggle-sort-ii/) | Medium || |

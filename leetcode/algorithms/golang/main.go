@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	middleNodeTest()
+	oddEvenListTest()
 }
 
 func twoSumTest() {
@@ -24,5 +24,11 @@ func removeNthFromEndTest() {
 func middleNodeTest() {
 	list := structures.Ints2List([]int{1, 2})
 	middList := middleNode(list)
+	structures.PrintList(middList)
+}
+
+func oddEvenListTest() {
+	list := structures.Ints2List([]int{2, 1, 3, 5, 6, 4, 7})
+	middList := oddEvenList(list)
 	structures.PrintList(middList)
 }
