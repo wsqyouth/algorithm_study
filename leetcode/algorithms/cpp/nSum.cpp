@@ -14,7 +14,7 @@ public:
     {
         //数组排序
         sort(nums.begin(), nums.end());
-        return nSumTarget(nums,4,0,target);
+        return nSumTarget(nums, 4, 0, target);
     }
     // nSumTarget前提是有序数组,调用前一定要先排序
     vector<vector<int>> nSumTarget(vector<int> &nums, int n, int begin, int target)
@@ -88,10 +88,10 @@ int main()
 {
     // Input: nums = [1,0,-1,0,-2,2], target = 0
     // Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
-     vector<int> vec = {1,0,-1,0,-2,2};
-    
+    vector<int> vec = {1, 0, -1, 0, -2, 2};
+
     Solution s;
-    vector<vector<int>> resVec = s.fourSum(vec,0);
+    vector<vector<int>> resVec = s.fourSum(vec, 0);
     cout << resVec.size() << endl;
     cout << "four sum val:" << endl;
 

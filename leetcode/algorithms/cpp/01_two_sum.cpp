@@ -17,7 +17,7 @@ int main()
     printVec(res);
 
     cout << "two sum val:" << endl;
-    vec = {1,3,1,2,2,3};
+    vec = {1, 3, 1, 2, 2, 3};
     vector<vector<int>> resVec = twoSumVal(vec, 4);
     for (int i = 0; i < resVec.size(); i++)
     {

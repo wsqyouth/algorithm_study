@@ -1,32 +1,43 @@
-#include<iostream>
-#include<stack>
-#include<map>
+#include <iostream>
+#include <stack>
+#include <map>
 using namespace std;
-class Solution {
+class Solution
+{
 public:
-    bool isValid(string s) {
-      if (s.empty()){
-        return false;
-      }
-      stack<int> st;
-      map<char,char> hash = {{'}','{'},{')','('},{']','['}};
+  bool isValid(string s)
+  {
+    if (s.empty())
+    {
+      return false;
+    }
+    stack<int> st;
+    map<char, char> hash = {{'}', '{'}, {')', '('}, {']', '['}};
 
-      for (int i=0; i< s.length(); i++){
-        if (s[i] == '(' || s[i] == '[' || s[i] == '{'){
-          st.push(s[i]);
-        }else if (s[i] == ')' || s[i] == '}' || s[i] == ']'){
-          if (st.empty() || st.top() != hash[s[i]]){
-            return false;
-          }else{
-            st.pop();
-          }
+    for (int i = 0; i < s.length(); i++)
+    {
+      if (s[i] == '(' || s[i] == '[' || s[i] == '{')
+      {
+        st.push(s[i]);
+      }
+      else if (s[i] == ')' || s[i] == '}' || s[i] == ']')
+      {
+        if (st.empty() || st.top() != hash[s[i]])
+        {
+          return false;
+        }
+        else
+        {
+          st.pop();
         }
       }
-      return st.empty();
     }
+    return st.empty();
+  }
 };
 
-int main(){
+int main()
+{
   string str = "()[]}";
   Solution objs;
   cout << objs.isValid(str) << endl;
