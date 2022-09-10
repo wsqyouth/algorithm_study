@@ -2,11 +2,29 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/wsqyouth/algorithm_study/leetcode/algorithms/golang/structures"
 )
 
 func main() {
-	mergeTwoListsTest()
+	mergeKListsTest()
+}
+func mergeKListsTest() {
+	list := structures.Ints2List([]int{1, 4, 5})
+	list1 := structures.Ints2List([]int{1, 3, 4})
+	list2 := structures.Ints2List([]int{2, 6})
+	lists := []*structures.ListNode{list, list1, list2}
+	structures.PrintList(mergeKLists(lists))
+}
+func partitionTest() {
+	list := structures.Ints2List([]int{1, 4, 3, 2, 5, 2})
+	structures.PrintList(partition(list, 3))
+}
+
+func hasCycleTest() {
+	list := structures.Ints2List([]int{3, 2, 0, -4})
+	// 构造有环链表,禁止打印
+	fmt.Println(hasCycle(list))
 }
 
 func twoSumTest() {

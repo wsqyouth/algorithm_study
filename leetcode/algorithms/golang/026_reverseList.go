@@ -8,7 +8,7 @@ import (
 // ListNode define
 // type ListNode = structures.ListNode
 
-// removeElements 翻转链表
+// removeElements 翻转链表,lc 206题
 func reverseList(head *ListNode) *ListNode {
 	if head == nil {
 		return head
@@ -117,4 +117,75 @@ func deleteDuplicatesII(head *ListNode) *ListNode {
 		newCurrent.Next = nil
 	}
 	return dummyHead.Next
+}
+
+/*
+141:判断链表是否有环
+每次移动慢指针一步，而移动快指针两步。每一次迭代，快速指针将额外移动一步。
+如果环的长度为 M，经过 M 次迭代后，快指针肯定会多绕环一周，并赶上慢指针。
+*/
+func hasCycle(head *ListNode) bool {
+	if head == nil || head.Next == nil {
+		return false
+	}
+
+	slow, fast := head, head.Next
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+		if fast == slow {
+			return true
+		}
+	}
+	return false
+}
+
+// lc142 链表入环的第一个结点
+func detectCycle(head *ListNode) *ListNode {
+	var hasCycle bool
+	slow, fast := head, head
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+		if fast == slow {
+			hasCycle = true
+			break
+		}
+	}
+	if !hasCycle {
+		return nil
+	}
+	// 慢指针从头开始走
+	slow = head
+	for slow != fast {
+		slow = slow.Next
+		fast = fast.Next
+	}
+	return slow
+}
+
+//输入：head = [1,4,3,2,5,2], x = 3 输出：[1,2,2,4,3,5]
+// leetcdoe 86题
+func partition(head *ListNode, x int) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	smallListHead, largeListHead := &ListNode{}, &ListNode{}
+	smallListCur, largeListCur := smallListHead, largeListHead
+	current := head
+	for current != nil {
+		if current.Val < x {
+			smallListCur.Next = current
+			smallListCur = smallListCur.Next
+		} else {
+			largeListCur.Next = current
+			largeListCur = largeListCur.Next
+		}
+		// current需断掉原有的连接关系，同时向前移动
+		tempNode := current.Next
+		current.Next = nil
+		current = tempNode
+	}
+	smallListCur.Next = largeListHead.Next
+	return smallListHead.Next
 }

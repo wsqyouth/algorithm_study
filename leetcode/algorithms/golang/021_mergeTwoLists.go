@@ -1,9 +1,7 @@
 package main
 
-import (
 // "fmt"
 // "github.com/wsqyouth/algorithm_study/leetcode/algorithms/golang/structures"
-)
 
 // ListNode define
 // type ListNode = structures.ListNode
@@ -39,6 +37,40 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 	}
 
 	return dummpHead.Next
+}
+
+// lc26题 思路1 k最小堆  思路2：分治算法
+func mergeKLists(lists []*ListNode) *ListNode {
+	length := len(lists)
+	if length < 1 {
+		return nil
+	}
+	if length == 1 {
+		return lists[0]
+	}
+
+	middle := length / 2
+	leftList := mergeKLists(lists[:middle])
+	rightList := mergeKLists(lists[middle:])
+	return mergeTwoLists(leftList, rightList)
+}
+
+// lc160 相交链表的交点
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	cur1, cur2 := headA, headB
+	for cur1 != cur2 {
+		if cur1 == nil {
+			cur1 = headB
+		} else {
+			cur1 = cur1.Next
+		}
+		if cur2 == nil {
+			cur2 = headA
+		} else {
+			cur2 = cur2.Next
+		}
+	}
+	return cur1
 }
 
 //参考：https://blog.csdn.net/wo94chunjie/article/details/116274981
