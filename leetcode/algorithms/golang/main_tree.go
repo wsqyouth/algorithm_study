@@ -9,7 +9,7 @@ import (
 type TreeNode = structures.TreeNode
 
 func main() {
-	maxDepthTest()
+	buildTreeTest106()
 }
 
 // lc 144 二叉树的前序遍历
@@ -110,7 +110,7 @@ func maxDepth(root *structures.TreeNode) int {
 func maxDepthTest() {
 	preOrder := []int{3, 9, structures.NULL, structures.NULL, 20, 15, 7} //前序:根左右
 	inOrder := []int{structures.NULL, 9, structures.NULL, 3, 15, 20, 7}  //中序:左根右
-	root := structures.PreIn2Tree(preOrder, inOrder)                     //前序后续构建树
+	root := structures.PreIn2Tree(preOrder, inOrder)                     //前序中序构建树
 	structures.PrintTree(root)
 	fmt.Println(maxDepth(root))
 
@@ -176,4 +176,79 @@ func isSymmetricHelper(left *TreeNode, right *TreeNode) bool {
 	// 树是对称的,最左侧和最右侧比较
 	//左子节点的左子节点和右子节点的右子节点比较，左子节点的右子节点和右子节点的左子节点比较
 	return isSymmetricHelper(left.Left, right.Right) && isSymmetricHelper(left.Right, right.Left)
+}
+
+func buildTreeTest() {
+	preOrder := []int{3, 9, 20, 15, 7}   //前序:根左右
+	inOrder := []int{9, 3, 15, 20, 7}    //中序:左根右
+	root := buildTree(preOrder, inOrder) //前序中序构建树
+	structures.PrintTree(root)
+}
+
+// lc 105 前序中序构建二叉树
+// 参考：https://labuladong.github.io/algo/2/21/38/
+func buildTree(preorder []int, inorder []int) *TreeNode {
+	//用preorder和inorder构造二叉树
+	return buildTreeHelper(preorder, 0, len(preorder)-1,
+		inorder, 0, len(inorder)-1)
+}
+func buildTreeHelper(preorder []int, preStart int, preEnd int,
+	inorder []int, inStart int, inEnd int) *TreeNode {
+	if preStart > preEnd {
+		return nil
+	}
+	rootVal := preorder[preStart] //root节点
+	var index int
+	for i, v := range inorder {
+		if v == rootVal {
+			index = i
+			break
+		}
+	}
+	root := &TreeNode{Val: rootVal}
+	leftSize := index - inStart
+	//递归构造左右子树
+	root.Left = buildTreeHelper(preorder, preStart+1, preStart+leftSize,
+		inorder, inStart, index-1)
+	root.Right = buildTreeHelper(preorder,
+		preStart+leftSize+1, preEnd,
+		inorder, index+1, inEnd)
+	return root
+}
+
+func buildTreeTest106() {
+	inOrder := []int{9, 3, 15, 20, 7}        //中序:左根右
+	postOrder := []int{9, 15, 7, 20, 3}      //后序:左右根
+	root := buildTree106(inOrder, postOrder) //中序后序构建树
+	structures.PrintTree(root)
+}
+
+// lc 106 后序中序构建二叉树
+// 参考：https://labuladong.github.io/algo/2/21/38/
+func buildTree106(inorder []int, postorder []int) *TreeNode {
+	//用postorder和inorder构造二叉树
+	return buildTreeHelper106(inorder, 0, len(inorder)-1,
+		postorder, 0, len(postorder)-1)
+}
+func buildTreeHelper106(inorder []int, inStart int, inEnd int,
+	postorder []int, postStart int, postEnd int) *TreeNode {
+	if inStart > inEnd {
+		return nil
+	}
+	rootVal := postorder[postEnd] //root节点
+	var index int
+	for i, v := range inorder {
+		if v == rootVal {
+			index = i
+			break
+		}
+	}
+	root := &TreeNode{Val: rootVal}
+	leftSize := index - inStart
+	//递归构造左右子树
+	root.Left = buildTreeHelper106(inorder, inStart, index-1,
+		postorder, postStart, postStart+leftSize-1)
+	root.Right = buildTreeHelper106(inorder, index+1, inEnd,
+		postorder, postStart+leftSize, postEnd-1)
+	return root
 }
