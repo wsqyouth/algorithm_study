@@ -6,9 +6,9 @@ import (
 	"github.com/wsqyouth/algorithm_study/leetcode/algorithms/golang/structures"
 )
 
-func main() {
-	mergeKListsTest()
-}
+//func main() {
+//mergeKListsTest()
+//}
 func mergeKListsTest() {
 	list := structures.Ints2List([]int{1, 4, 5})
 	list1 := structures.Ints2List([]int{1, 3, 4})

@@ -164,6 +164,8 @@ func detectCycle(head *ListNode) *ListNode {
 	return slow
 }
 
+//参考:当快慢指针相遇时，让其中任一个指针指向头节点，然后让它俩以相同速度前进，再次相遇时所在的节点位置就是环开始的位置。https://labuladong.github.io/algo/1/4/
+
 //输入：head = [1,4,3,2,5,2], x = 3 输出：[1,2,2,4,3,5]
 // leetcdoe 86题
 func partition(head *ListNode, x int) *ListNode {
