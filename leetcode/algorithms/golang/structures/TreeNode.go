@@ -123,7 +123,7 @@ func Tree2PostOrder(root *TreeNode) []int {
 	return res
 }
 
-func printTree(root *TreeNode) {
+func PrintTree(root *TreeNode) {
 	if root == nil {
 		return
 	}
@@ -134,7 +134,12 @@ func printTree(root *TreeNode) {
 		length := len(queue)
 		//处理这一层级的二叉树，将该层级节点的所有节点保存在queue中
 		for _, v := range queue {
-			fmt.Printf("  %v", v.Val)
+			//fmt.Printf("  %v", v.Val)
+			if v.Val == NULL {
+				fmt.Printf("  %v", "null")
+			} else {
+				fmt.Printf("  %v", v.Val)
+			}
 			if v.Left != nil {
 				queue = append(queue, v.Left)
 			}
