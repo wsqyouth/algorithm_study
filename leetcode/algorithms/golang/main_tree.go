@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/wsqyouth/algorithm_study/leetcode/algorithms/golang/structures"
 )
@@ -9,7 +11,7 @@ import (
 type TreeNode = structures.TreeNode
 
 func main() {
-	buildTreeTest106()
+	SerializesTest()
 }
 
 // lc 144 二叉树的前序遍历
@@ -251,4 +253,65 @@ func buildTreeHelper106(inorder []int, inStart int, inEnd int,
 	root.Right = buildTreeHelper106(inorder, index+1, inEnd,
 		postorder, postStart+leftSize, postEnd-1)
 	return root
+}
+
+// lc 297题 二叉树序列化和反序列化
+// 思想: https://labuladong.github.io/algo/2/21/39/
+// 参考:https://books.halfrost.com/leetcode/ChapterFour/0200~0299/0297.Serialize-and-Deserialize-Binary-Tree/
+func SerializesTest() {
+	inOrder := []int{9, 3, 15, 20, 7}        //中序:左根右
+	postOrder := []int{9, 15, 7, 20, 3}      //后序:左右根
+	root := buildTree106(inOrder, postOrder) //中序后序构建树
+
+	ser := Constructor()
+	deser := Constructor()
+	data := ser.serialize(root)
+	ans := deser.deserialize(data)
+	fmt.Println(data)
+	structures.PrintTree(ans)
+}
+
+type Codec struct {
+	builder strings.Builder
+	input   []string
+}
+
+func Constructor() Codec {
+	return Codec{}
+}
+
+// Serializes a tree to a single string.
+func (this *Codec) serialize(root *TreeNode) string {
+	if root == nil {
+		this.builder.WriteString("#,")
+		return ""
+	}
+	this.builder.WriteString(strconv.Itoa(root.Val) + ",")
+	this.serialize(root.Left)
+	this.serialize(root.Right)
+	return this.builder.String()
+}
+
+// Deserializes your encoded data to tree.
+func (this *Codec) deserialize(data string) *TreeNode {
+	if len(data) == 0 {
+		return nil
+	}
+	this.input = strings.Split(data, ",")
+	return this.deserializeHelper()
+}
+
+// 想象为满二叉树进行前序遍历处理
+func (this *Codec) deserializeHelper() *TreeNode {
+	if this.input[0] == "#" {
+		this.input = this.input[1:]
+		return nil
+	}
+	val, _ := strconv.Atoi(this.input[0])
+	this.input = this.input[1:]
+	return &TreeNode{
+		Val:   val,
+		Left:  this.deserializeHelper(),
+		Right: this.deserializeHelper(),
+	}
 }

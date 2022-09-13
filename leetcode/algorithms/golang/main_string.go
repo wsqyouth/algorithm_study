@@ -4,9 +4,11 @@ import (
 	"fmt"
 )
 
+/*
 func main() {
 	compareVersionTest()
 }
+*/
 
 func compareVersionTest() {
 	fmt.Println(compareVersion("1.02", "1.001"))
