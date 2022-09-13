@@ -11,7 +11,7 @@ import (
 type TreeNode = structures.TreeNode
 
 func main() {
-	SerializesTest()
+	constructMaximumBinaryTreeTest()
 }
 
 // lc 144 二叉树的前序遍历
@@ -313,5 +313,31 @@ func (this *Codec) deserializeHelper() *TreeNode {
 		Val:   val,
 		Left:  this.deserializeHelper(),
 		Right: this.deserializeHelper(),
+	}
+}
+
+func constructMaximumBinaryTreeTest() {
+	nums := []int{3, 2, 1, 6, 0, 5}
+	root := constructMaximumBinaryTree(nums)
+	structures.PrintTree(root)
+
+}
+
+// lc654 构建最大二叉树,其实就是按照切片的顺序前序遍历构造即可，和lc297几乎一样
+func constructMaximumBinaryTree(nums []int) *TreeNode {
+	if len(nums) == 0 {
+		return nil
+	}
+	maxNumIndex, maxNum := 0, nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i] > maxNum {
+			maxNum = nums[i]
+			maxNumIndex = i
+		}
+	}
+	return &TreeNode{
+		Val:   maxNum,
+		Left:  constructMaximumBinaryTree(nums[:maxNumIndex]),
+		Right: constructMaximumBinaryTree(nums[maxNumIndex+1:]),
 	}
 }
