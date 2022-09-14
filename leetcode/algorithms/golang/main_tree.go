@@ -11,7 +11,7 @@ import (
 type TreeNode = structures.TreeNode
 
 func main() {
-	constructMaximumBinaryTreeTest()
+	sortArrayTest()
 }
 
 // lc 144 二叉树的前序遍历
@@ -340,4 +340,55 @@ func constructMaximumBinaryTree(nums []int) *TreeNode {
 		Left:  constructMaximumBinaryTree(nums[:maxNumIndex]),
 		Right: constructMaximumBinaryTree(nums[maxNumIndex+1:]),
 	}
+}
+
+func sortArrayTest() {
+	nums := []int{7, 8, 4, 3, 2, 1, 6, 0, 5}
+	ans := sortArray(nums)
+	fmt.Println(ans)
+	/*
+		fmt.Println(mergeSortArray([]int{1, 2, 3}, []int{4, 5, 6}))
+	*/
+}
+
+// lc912 升序排序,使用归并排序,二叉树后续遍历
+func sortArray(nums []int) []int {
+	if len(nums) == 0 {
+		return nil
+	}
+	return sortArrayHelper(nums, 0, len(nums)-1)
+}
+func sortArrayHelper(nums []int, low int, high int) []int {
+	if low == high {
+		return []int{nums[low]}
+	}
+	mid := low + (high-low)/2
+	leftSortArray := sortArrayHelper(nums, low, mid)
+	rightSortArray := sortArrayHelper(nums, mid+1, high)
+
+	return mergeSortArray(leftSortArray, rightSortArray)
+}
+func mergeSortArray(leftSortArray []int, rightSortArray []int) []int {
+	m, n, length := len(leftSortArray), len(rightSortArray), len(leftSortArray)+len(rightSortArray)
+	res := make([]int, length)
+	var i, j, k int
+	for i < m && j < n {
+		if leftSortArray[i] < rightSortArray[j] {
+			res[k] = leftSortArray[i]
+			i++
+			k++
+		} else {
+			res[k] = rightSortArray[j]
+			j++
+			k++
+		}
+	}
+	res = res[0:k]
+	if i >= m {
+		res = append(res, rightSortArray[j:n]...)
+	}
+	if j >= n {
+		res = append(res, leftSortArray[i:m]...)
+	}
+	return res
 }
