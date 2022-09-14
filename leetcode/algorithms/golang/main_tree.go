@@ -363,32 +363,31 @@ func sortArrayHelper(nums []int, low int, high int) []int {
 		return []int{nums[low]}
 	}
 	mid := low + (high-low)/2
-	leftSortArray := sortArrayHelper(nums, low, mid)
-	rightSortArray := sortArrayHelper(nums, mid+1, high)
+	left := sortArrayHelper(nums, low, mid)
+	right := sortArrayHelper(nums, mid+1, high)
 
-	return mergeSortArray(leftSortArray, rightSortArray)
+	return mergeSortArray(left, right)
 }
-func mergeSortArray(leftSortArray []int, rightSortArray []int) []int {
-	m, n, length := len(leftSortArray), len(rightSortArray), len(leftSortArray)+len(rightSortArray)
+func mergeSortArray(left []int, right []int) []int {
+	m, n, length := len(left), len(right), len(left)+len(right)
 	res := make([]int, length)
 	var i, j, k int
 	for i < m && j < n {
-		if leftSortArray[i] < rightSortArray[j] {
-			res[k] = leftSortArray[i]
+		if left[i] < right[j] {
+			res[k] = left[i]
 			i++
-			k++
 		} else {
-			res[k] = rightSortArray[j]
+			res[k] = right[j]
 			j++
-			k++
 		}
+		k++
 	}
 	res = res[0:k]
-	if i >= m {
-		res = append(res, rightSortArray[j:n]...)
+	if i < m {
+		res = append(res, left[i:m]...)
 	}
-	if j >= n {
-		res = append(res, leftSortArray[i:m]...)
+	if j < n {
+		res = append(res, right[j:n]...)
 	}
 	return res
 }
