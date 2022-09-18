@@ -2,11 +2,11 @@ package main
 
 import "fmt"
 
+/*
 func main() {
-
 	mergeInplaceTest()
 }
-
+*/
 func mergeInplaceTest() {
 	nums1 := []int{1, 2, 3, 0, 0, 0}
 	nums2 := []int{2, 5, 6}

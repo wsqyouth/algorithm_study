@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 // func main() {
-// 	//nums:=[]int{-1,0,1,2,-1,-4}
-// 	nums := []int{-4, -2, 1, -5, -4, -4, 4, -2, 0, 4, 0, -2, 3, 1, -5, 0}
+// 	nums:=[]int{-1,0,1,2,-1,-4}
 // 	fmt.Println(threeSum(nums))
 // }
 
+/*
 func threeSum(nums []int) [][]int {
 	result := make([][]int, 0)
 	sort.Ints(nums)
@@ -47,6 +46,7 @@ func threeSum(nums []int) [][]int {
 	//fmt.Println(nums)
 	return result
 }
+*/
 func threeSum1(nums []int) [][]int {
 	var target [][]int
 

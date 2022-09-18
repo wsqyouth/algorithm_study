@@ -86,7 +86,70 @@ func levelOrder(root *structures.TreeNode) [][]int {
 	return res
 }
 
+// lc107 层次遍历从底向上打印
+func levelOrderBottom(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	queue := []*TreeNode{root}
+	res := make([][]int, 0)
+	for len(queue) > 0 {
+		length := len(queue)
+		tempRes := make([]int, 0, length)
+		for i := 0; i < length; i++ {
+			if queue[i].Left != nil {
+				queue = append(queue, queue[i].Left)
+			}
+			if queue[i].Right != nil {
+				queue = append(queue, queue[i].Right)
+			}
+			tempRes = append(tempRes, queue[i].Val)
+		}
+		queue = queue[length:] //记得将队列已处理的数据清除掉
+		res = append(res, tempRes)
+	}
+	// 也可以在每一个切片插入时从头部插入，go没有这样的特性只能手动数组翻转下
+	length := len(res)
+	for i := 0; i < (length)/2; i++ {
+		res[i], res[length-i-1] = res[length-i-1], res[i]
+	}
+	return res
+}
+
+// lc199 二叉树的右视图 判断是否遍历到单层的最后面的元素，如果是，就放进result数组中，随后返回result就可以了
+//func rightSideView(root *TreeNode) []int {}
+// lc637 二叉树每层求平均值
+func averageOfLevels(root *TreeNode) []float64 {
+	if root == nil {
+		return []float64{}
+	}
+	queue := []*TreeNode{root}
+	res := make([]float64, 0)
+	for len(queue) > 0 {
+		length := len(queue)
+		tempRes := make([]int, 0, length)
+		for i := 0; i < length; i++ {
+			if queue[i].Left != nil {
+				queue = append(queue, queue[i].Left)
+			}
+			if queue[i].Right != nil {
+				queue = append(queue, queue[i].Right)
+			}
+			tempRes = append(tempRes, queue[i].Val)
+		}
+		queue = queue[length:] //记得将队列已处理的数据清除掉
+		var sum float64
+		for _, val := range tempRes {
+			sum += float64(val)
+		}
+		tempAverageVal := sum / float64(length)
+		res = append(res, tempAverageVal)
+	}
+	return res
+}
+
 // lc104  二叉树的最大深度
+
 // 思路：这道题是树思想的体现,能够讲清楚递归的本质
 // 1. 自顶向下 -> 先操作根节点（状态已知）-> 前序遍历
 // 2. 自底向上 -> 后操作根节点（状态可能未知）-> 后续遍历

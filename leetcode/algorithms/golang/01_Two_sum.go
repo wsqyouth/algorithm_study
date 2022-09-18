@@ -1,5 +1,6 @@
 package main
 
+/*
 func twoSum(nums []int, target int) []int {
 	var targetIndex []int
 	for i := 0; i < len(nums)-1; i++ {
@@ -25,3 +26,4 @@ func twoSumNew(nums []int, target int) []int {
 	}
 	return nil
 }
+*/
