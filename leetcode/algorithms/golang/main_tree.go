@@ -12,7 +12,8 @@ type TreeNode = structures.TreeNode
 
 func main() {
 	//sortArrayTest()
-	findKthLargestTest()
+	//findKthLargestTest()
+	topKFrequentTest()
 }
 
 // lc 144 二叉树的前序遍历
@@ -528,4 +529,75 @@ func findKthLargest(nums []int, k int) int {
 		}
 	}
 	return -1
+}
+
+// 还缺一个堆排序,能够对比这3个算法的不同
+// lc347 前k个高频元素,可以使用小顶堆实现，这里仍然使用快排partition算法
+func topKFrequentTest() {
+	nums := []int{1, 1, 1, 2, 2, 3}
+	fmt.Println(topKFrequent(nums, 2))
+}
+
+type NumFreq struct {
+	num  int
+	freq int
+}
+
+func topKFrequent(nums []int, k int) []int {
+	// 1、构建数字出现频率的列表
+	lenNum := len(nums)
+	if lenNum == 1 {
+		return nums
+	}
+	mapNum := make(map[int]int)
+	for i := 0; i < lenNum; i++ {
+		mapNum[nums[i]]++
+	}
+	numFreqList := []NumFreq{}
+	for i, v := range mapNum {
+		numFreqList = append(numFreqList, NumFreq{i, v})
+	}
+	// 2.使用partition算法进行查找
+	var res []int
+	low, high := 0, len(numFreqList)-1
+	for low <= high {
+		// 对nums进行切分,使得nums[low..p-1] <= nums[p] < nums[p+1,high]
+		p := partitionStructArray(numFreqList, low, high)
+		k := p - low + 1 //表示基准左侧元素的个数
+		if p < k {
+			low = p + 1
+		} else if p > k {
+			high = p - 1
+		} else {
+			//找到结果后填充
+			for ii := low; ii <= p; ii++ {
+				res = append(res, numFreqList[ii].num)
+			}
+		}
+	}
+	return res
+}
+func partitionStructArray(nums []NumFreq, low int, high int) int {
+	// low对应基准。 i,j为开区间，保证覆盖到[low,high]
+	pivot := nums[low].num
+	i, j := low+1, high
+	for i <= j {
+		for i < high && nums[i].num <= pivot {
+			i++
+		}
+		for j > low && nums[j].num > pivot {
+			j--
+		}
+		// 以上步骤使得[low,i) <= pivlot && (j,high] > pivot
+		if i >= j {
+			break
+		}
+		swapNum(nums, i, j)
+	}
+	swapNum(nums, low, j)
+	return j
+}
+
+func swapNum(nums []NumFreq, i int, j int) {
+	nums[i], nums[j] = nums[j], nums[i]
 }
