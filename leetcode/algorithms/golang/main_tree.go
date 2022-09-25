@@ -11,7 +11,8 @@ import (
 type TreeNode = structures.TreeNode
 
 func main() {
-	sortArrayTest()
+	//sortArrayTest()
+	findKthLargestTest()
 }
 
 // lc 144 二叉树的前序遍历
@@ -409,6 +410,9 @@ func sortArrayTest() {
 	nums := []int{7, 8, 4, 3, 2, 1, 6, 0, 5}
 	ans := sortArray(nums)
 	fmt.Println(ans)
+	//quickSort
+	quickSortArray(nums)
+	fmt.Println((nums))
 	/*
 		fmt.Println(mergeSortArray([]int{1, 2, 3}, []int{4, 5, 6}))
 	*/
@@ -453,4 +457,75 @@ func mergeSortArray(left []int, right []int) []int {
 		res = append(res, right[j:n]...)
 	}
 	return res
+}
+
+func quickSortArray(nums []int) {
+	if len(nums) == 0 {
+		return
+	}
+	sortQuickArrayHelper(nums, 0, len(nums)-1)
+}
+
+// 快排排序，二叉树前序遍历
+func sortQuickArrayHelper(nums []int, low int, high int) {
+	if low >= high {
+		return
+	}
+	// 对nums进行切分,使得nums[low..p-1] <= nums[p] < nums[p+1,high]
+	p := partitionArray(nums, low, high)
+	sortQuickArrayHelper(nums, low, p-1)
+	sortQuickArrayHelper(nums, p+1, high)
+}
+
+//ref: https://mp.weixin.qq.com/s/8ZTMhvHJK_He48PpSt_AmQ
+func partitionArray(nums []int, low int, high int) int {
+	// low对应基准。 i,j为开区间，保证覆盖到[low,high]
+	pivot := nums[low]
+	i, j := low+1, high
+	for i <= j {
+		for i < high && nums[i] <= pivot {
+			i++
+		}
+		for j > low && nums[j] > pivot {
+			j--
+		}
+		// 以上步骤使得[low,i) <= pivlot && (j,high] > pivot
+		if i >= j {
+			break
+		}
+		swap(nums, i, j)
+	}
+	swap(nums, low, j)
+	return j
+}
+func swap(nums []int, i int, j int) {
+	temp := nums[j]
+	nums[j] = nums[i]
+	nums[i] = temp
+}
+
+// lc215 数组第k大元素
+func findKthLargestTest() {
+	nums := []int{3, 2, 1, 5, 6, 4}
+	fmt.Println(findKthLargest(nums, 2))
+	nums = []int{3, 2, 3, 1, 2, 4, 5, 5, 6}
+	fmt.Println(findKthLargest(nums, 4))
+}
+
+func findKthLargest(nums []int, k int) int {
+	low, high := 0, len(nums)-1
+	k = len(nums) - k //转换为排名第k'的元素
+
+	for low <= high {
+		// 对nums进行切分,使得nums[low..p-1] <= nums[p] < nums[p+1,high]
+		p := partitionArray(nums, low, high)
+		if p < k {
+			low = p + 1
+		} else if p > k {
+			high = p - 1
+		} else {
+			return nums[p]
+		}
+	}
+	return -1
 }
