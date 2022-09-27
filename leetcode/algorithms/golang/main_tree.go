@@ -13,7 +13,7 @@ type TreeNode = structures.TreeNode
 func main() {
 	//sortArrayTest()
 	//findKthLargestTest()
-	topKFrequentTest()
+	//topKFrequentTest()
 }
 
 // lc 144 二叉树的前序遍历
