@@ -10,11 +10,11 @@ import (
 
 type TreeNode = structures.TreeNode
 
-func main() {
-	//sortArrayTest()
-	//findKthLargestTest()
-	//topKFrequentTest()
-}
+//func main() {
+//sortArrayTest()
+//findKthLargestTest()
+//topKFrequentTest()
+//}
 
 // lc 144 二叉树的前序遍历
 func preorderTraversal(root *structures.TreeNode) []int {

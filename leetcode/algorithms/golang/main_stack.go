@@ -4,10 +4,11 @@ import (
 	"fmt"
 )
 
+/*
 func main() {
 	isValidTest()
 }
-
+*/
 func isValidTest() {
 	str := "()[]{}"
 	fmt.Println(isValid(str))
