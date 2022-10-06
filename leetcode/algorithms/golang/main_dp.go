@@ -8,7 +8,8 @@ import (
 func main() {
 	//climbStairsTest()
 	//fmt.Println(coinChange([]int{3, 2, 5}, 11))
-	fmt.Println(lengthOfLIS([]int{10, 9, 2, 5, 3, 7, 101, 18}))
+	//fmt.Println(lengthOfLIS([]int{10, 9, 2, 5, 3, 7, 101, 18}))
+	fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
 }
 
 func climbStairsTest() {
@@ -88,6 +89,8 @@ func max(a, b int) int {
 		return b
 	}
 }
+
+// lc300 最长递增子序列
 func lengthOfLIS(nums []int) int {
 	// dp[i]: 以nums[i]结尾最长递增子序列【不连续】的长度
 	dp := make([]int, len(nums))
@@ -102,6 +105,26 @@ func lengthOfLIS(nums []int) int {
 		}
 	}
 	var res int
+	for i := 0; i < len(nums); i++ {
+		res = max(res, dp[i])
+	}
+	return res
+}
+
+// lc53 最大的子数组和
+func maxSubArray(nums []int) int {
+	length := len(nums)
+	if length == 0 {
+		return 0
+	}
+	//dp:以 nums[i] 为结尾的「最大子数组和」为 dp[i]。
+	dp := make([]int, length)
+	// base case
+	dp[0] = nums[0]
+	for i := 1; i < length; i++ {
+		dp[i] = max(nums[i], dp[i-1]+nums[i]) //要么自身自成一派,要么和前面元素连接
+	}
+	var res = math.MinInt32
 	for i := 0; i < len(nums); i++ {
 		res = max(res, dp[i])
 	}
