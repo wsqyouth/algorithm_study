@@ -5,12 +5,14 @@ import (
 	"math"
 )
 
+/*
 func main() {
 	//climbStairsTest()
 	//fmt.Println(coinChange([]int{3, 2, 5}, 11))
 	//fmt.Println(lengthOfLIS([]int{10, 9, 2, 5, 3, 7, 101, 18}))
 	fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
 }
+*/
 
 func climbStairsTest() {
 	fmt.Println(climbStairs(3))

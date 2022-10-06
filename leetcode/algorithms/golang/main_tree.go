@@ -10,11 +10,12 @@ import (
 
 type TreeNode = structures.TreeNode
 
-//func main() {
-//sortArrayTest()
-//findKthLargestTest()
-//topKFrequentTest()
-//}
+func main() {
+	//sortArrayTest()
+	//findKthLargestTest()
+	//topKFrequentTest()
+	fmt.Println(numTrees(3))
+}
 
 // lc 144 二叉树的前序遍历
 func preorderTraversal(root *structures.TreeNode) []int {
@@ -730,4 +731,71 @@ func insertIntoBST(root *TreeNode, val int) *TreeNode {
 		root.Left = insertIntoBST(root.Left, val)
 	}
 	return root
+}
+
+// lc96 定一个整数 n，求以 1 … n 为节点组成的二叉搜索树有多少种
+// 方法1：备忘录法,方法虽然笨但是思想好:  https://mp.weixin.qq.com/s/kcwz2lyRxxOsC3n11qdVSw
+// 方法2: https://books.halfrost.com/leetcode/ChapterFour/0001~0099/0096.Unique-Binary-Search-Trees/
+func numTrees(n int) int {
+	// 备忘录
+	memo := make([][]int, n+1)
+	for i := range memo {
+		memo[i] = make([]int, n+1)
+	}
+	fmt.Println(memo[0][0])
+	return count(1, n, memo)
+}
+
+func count(low int, high int, memo [][]int) int {
+	if low > high {
+		return 1
+	}
+
+	//查
+	if memo[low][high] != 0 {
+		return memo[low][high]
+	}
+
+	var res int
+	for mid := low; mid <= high; mid++ {
+		left := count(low, mid-1, memo)
+		right := count(mid+1, high, memo)
+		res += left * right
+	}
+	//存
+	memo[low][high] = res
+	return res
+}
+
+func generateTrees(n int) []*TreeNode {
+	if n == 0 {
+		return make([]*TreeNode, 0)
+	}
+	// 构造闭区间[1,n]组成BST
+	return buildHelper(1, n)
+}
+
+func buildHelper(low int, high int) []*TreeNode {
+	res := make([]*TreeNode, 0)
+	//base case
+	if low > high {
+		res = append(res, nil)
+		return res
+	}
+
+	// 穷举root所有可能节点
+	for i := low; i <= high; i++ {
+		// 递归构造所有左右子树的组合
+		leftTree := buildHelper(low, i-1)
+		rightTree := buildHelper(i+1, high)
+		for _, left := range leftTree {
+			for _, right := range rightTree {
+				root := &TreeNode{Val: i}
+				root.Left = left
+				root.Right = right
+				res = append(res, root)
+			}
+		}
+	}
+	return res
 }
