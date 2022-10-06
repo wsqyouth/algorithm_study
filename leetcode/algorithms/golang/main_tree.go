@@ -601,3 +601,133 @@ func partitionStructArray(nums []NumFreq, low int, high int) int {
 func swapNum(nums []NumFreq, i int, j int) {
 	nums[i], nums[j] = nums[j], nums[i]
 }
+
+// lc230 二叉搜索树第k大
+func kthSmallest(root *TreeNode, k int) int {
+	if root == nil {
+		return 0
+	}
+	var dfs func(root *TreeNode)
+	var res int
+	dfs = func(root *TreeNode) {
+		if root == nil {
+			return
+		}
+		dfs(root.Left)
+		k--
+		if k == 0 {
+			res = root.Val
+			return
+		}
+		dfs(root.Right)
+	}
+	dfs(root)
+	return res
+}
+
+// lc538 /1038  二叉树转为累加树之和:维护一个外部累加变量 sum，在遍历 BST 的过程中增加 sum，
+// 同时把 sum 赋值给 BST 中的每一个节点，就将 BST 转化成累加树了。
+func convertBST(root *TreeNode) *TreeNode {
+	if root == nil {
+		return root
+	}
+	var dfs func(root *TreeNode)
+	var sum int
+	dfs = func(root *TreeNode) {
+		if root == nil {
+			return
+		}
+		// 注意顺序，正常的中序遍历顺序是先左子树后右子树，这里需要反过来，先右子树后左子树
+		dfs(root.Right)
+		sum += root.Val
+		root.Val = sum
+		dfs(root.Left)
+	}
+	dfs(root)
+	return root
+
+}
+
+// lc700 搜索二叉搜索树
+func searchBST(root *TreeNode, val int) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if val > root.Val {
+		return searchBST(root.Right, val)
+	}
+	if val < root.Val {
+		return searchBST(root.Left, val)
+	}
+	return root
+}
+
+// lc98 验证二叉搜索树，判断当前节点满足左小右大，不仅仅是左右两个节点
+func isValidBST(root *TreeNode) bool {
+	return isValidBSTHelper(root, nil, nil)
+}
+func isValidBSTHelper(root *TreeNode, min *TreeNode, max *TreeNode) bool {
+	//base case
+	if root == nil {
+		return true
+	}
+	if min != nil && root.Val <= min.Val {
+		return false
+	}
+	if max != nil && root.Val <= max.Val {
+		return false
+	}
+	// 限定左子树的最大值为root.Val;右子树的最小值为root.Val
+	return isValidBSTHelper(root.Left, min, root) && isValidBSTHelper(root.Right, root, max)
+}
+
+func deleteNode(root *TreeNode, key int) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if key == root.Val {
+		//情况1：左右子树均为空，直接删除即可
+		//情况2：左右子树有一个为空，让非空的子树接替自己
+		if root.Left == nil {
+			return root.Right
+		}
+		if root.Right == nil {
+			return root.Left
+		}
+		// 左右子树均非空时，要么找到左子树中的最大节点接替自己;要么找到右子树中的最小节点接替自己，这里用后者
+		minNode := getMin(root.Right)
+		// 删除右子树最小节点
+		root.Right = deleteNode(root.Right, minNode.Val)
+		// 替代root节点
+		minNode.Left = root.Left
+		minNode.Right = root.Right
+		root = minNode
+	} else if key > root.Val {
+		root.Right = deleteNode(root.Right, key)
+	} else if key < root.Val {
+		root.Left = deleteNode(root.Left, key)
+	}
+	return root
+}
+
+func getMin(root *TreeNode) *TreeNode {
+	for root.Left != nil {
+		root = root.Left
+	}
+	return root //一路向左就是最小的
+}
+
+// lc701 二叉搜索树插入节点
+func insertIntoBST(root *TreeNode, val int) *TreeNode {
+	if root == nil {
+		return &TreeNode{Val: val}
+	}
+	// 插入操作一般不会插入已存在的,不满足BST定义
+	if val > root.Val {
+		root.Right = insertIntoBST(root.Right, val)
+	}
+	if val < root.Val {
+		root.Left = insertIntoBST(root.Left, val)
+	}
+	return root
+}

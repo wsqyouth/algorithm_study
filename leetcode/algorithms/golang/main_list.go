@@ -51,6 +51,7 @@ func oddEvenListTest() {
 	structures.PrintList(resList)
 }
 
+/*
 func deleteNodeTest() {
 	list := structures.Ints2List([]int{4, 5, 1, 9})
 	current := list
@@ -65,7 +66,7 @@ func deleteNodeTest() {
 	deleteNode(deleteNodePointer)
 	structures.PrintList(list)
 }
-
+*/
 func removeElementsTest() {
 	list := structures.Ints2List([]int{7, 7, 7, 7})
 	resList := removeElements(list, 7)
