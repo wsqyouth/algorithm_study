@@ -799,3 +799,32 @@ func buildHelper(low int, high int) []*TreeNode {
 	}
 	return res
 }
+
+// lc236 二叉树的公共祖先节点
+// ref:https://mp.weixin.qq.com/s/njl6nuid0aalZdH5tuDpqQ
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	//base case
+	if root == nil {
+		return nil
+	}
+	if root == p || root == q {
+		return root
+	}
+	left := lowestCommonAncestor(root.Left, p, q)
+	right := lowestCommonAncestor(root.Right, p, q)
+	//情况1：p,q都在以root为根的树中，那么left和right一定为p,q
+	if left != nil && right != nil {
+		return root
+	}
+	//情况2：如果p,q都不在以root为根
+	if left == nil && right == nil {
+		return nil
+	}
+	//情况3：只有一个存在以root为根的树中，则返回该节点
+	if left != nil {
+		return left
+	} else {
+		return right
+	}
+	return nil
+}
