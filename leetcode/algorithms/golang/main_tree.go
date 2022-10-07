@@ -852,3 +852,24 @@ func lowestCommonAncestorNew(root, p, q *TreeNode) *TreeNode {
 
 	return nil
 }
+
+// lc222 完全二叉树节点的个数
+//ref :https://labuladong.github.io/algo/2/21/48/
+func countNodes(root *TreeNode) int {
+	left, right := root, root
+	// 分别计算左右两颗子树的高度
+	var heightLeft, heightRight int
+	for left != nil {
+		left = left.Left
+		heightLeft++
+	}
+	for right != nil {
+		right = right.Right
+		heightRight++
+	}
+	if heightLeft == heightRight {
+		return 1<<heightRight - 1 //math.Pow(n,1)
+	}
+	// 如果左右高度不同，则按照普通二叉树进行计算
+	return 1 + countNodes(root.Left) + countNodes(root.Right)
+}
