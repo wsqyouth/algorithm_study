@@ -828,3 +828,27 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	}
 	return nil
 }
+
+// lc235 二叉搜索树的LCA
+func lowestCommonAncestorNew(root, p, q *TreeNode) *TreeNode {
+	//base case
+	if root == nil {
+		return nil
+	}
+	if p.Val > q.Val {
+		return lowestCommonAncestor(root, q, p) //保证p.Val <= q.Val,后面好处理
+	}
+	if root.Val >= p.Val && root.Val <= q.Val {
+		//情况1：p,q都在以root为根的树中，那么root一定是LCA
+		return root
+	}
+	if root.Val > q.Val {
+		//情况2：p,q都在以root的左子树
+		return lowestCommonAncestor(root.Left, p, q)
+	} else {
+		//情况3:p,q都在以root的右子树
+		return lowestCommonAncestor(root.Right, p, q)
+	}
+
+	return nil
+}
