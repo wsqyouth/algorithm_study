@@ -5,14 +5,13 @@ import (
 	"math"
 )
 
-/*
 func main() {
 	//climbStairsTest()
 	//fmt.Println(coinChange([]int{3, 2, 5}, 11))
 	//fmt.Println(lengthOfLIS([]int{10, 9, 2, 5, 3, 7, 101, 18}))
-	fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
+	//fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
+	fmt.Println(minCostClimbingStairs([]int{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}))
 }
-*/
 
 func climbStairsTest() {
 	fmt.Println(climbStairs(3))
@@ -37,6 +36,25 @@ func dp(n int, memo []int) int {
 	//状态转移方程：爬到第n级等于爬到第n-1级方法与爬到第n-2层的方法个数之和
 	memo[n] = dp(n-1, memo) + dp(n-2, memo)
 	return memo[n]
+}
+
+// lc746 使用最小花费爬楼梯
+func minCostClimbingStairs(cost []int) int {
+	if len(cost) == 0 {
+		return 0
+	}
+
+	//定义：到达第i个台阶所花费的最少体力为dp[i]
+	dp := make([]int, len(cost))
+	dp[0] = cost[0]
+	dp[1] = cost[1]
+
+	for i := 2; i < len(cost); i++ {
+		dp[i] = min(dp[i-1], dp[i-2]) + cost[i]
+	}
+
+	// 最后一步不需要花费，因此取倒数第1,2步最小值
+	return min(dp[len(cost)-1], dp[len(cost)-2])
 }
 
 // lc322 零钱兑换 完全背包
