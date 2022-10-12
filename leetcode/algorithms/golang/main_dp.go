@@ -10,7 +10,8 @@ func main() {
 	//fmt.Println(coinChange([]int{3, 2, 5}, 11))
 	//fmt.Println(lengthOfLIS([]int{10, 9, 2, 5, 3, 7, 101, 18}))
 	//fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
-	fmt.Println(minCostClimbingStairs([]int{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}))
+	//fmt.Println(minCostClimbingStairs([]int{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}))
+	fmt.Println(isPalindrome(123))
 }
 
 func climbStairsTest() {
@@ -169,4 +170,20 @@ func myPow(x float64, n int) float64 {
 		return tmp * tmp
 	}
 	return tmp * tmp * x
+}
+
+// lc6 判断回文数 基本原理是掌握数字字符串转整型的思路
+func isPalindrome(x int) bool {
+	if x < 0 {
+		return false
+	}
+
+	temp := x
+	var reverseRes int
+	for temp > 0 {
+		lastNum := temp % 10
+		temp = temp / 10
+		reverseRes = reverseRes*10 + lastNum
+	}
+	return reverseRes == x
 }
