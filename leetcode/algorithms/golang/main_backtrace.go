@@ -47,6 +47,52 @@ func permute(nums []int) [][]int {
 	return ans
 }
 
+// lc47 全排列[前提：元素重复不可复选]
+// https://labuladong.github.io/algo/4/31/107/
+func permuteUnique(nums []int) [][]int {
+	ans := make([][]int, 0)
+	if len(nums) == 0 {
+		return ans
+	}
+	sort.Ints(nums)
+	// 记录选择
+	option := make([]int, 0)
+	// 记录路径中元素被标记为true，避免重复使用
+	visited := make([]bool, len(nums))
+
+	// 使用闭包是不想返回res了，比较麻烦
+	var backtrack func(nums []int, option []int, visited []bool)
+	backtrack = func(nums []int, option []int, visited []bool) {
+		// 触发结束条件
+		if len(option) == len(nums) {
+			ans = append(ans, append([]int{}, option...))
+			return
+		}
+		for i := 0; i < len(nums); i++ {
+			if visited[i] {
+				// nums[i]已经被选择过，跳过
+				continue
+			}
+			// 如何设计剪枝逻辑，把这种重复去除掉？新添加的剪枝逻辑，固定相同的元素在排列中的相对位置
+			if i > 0 && nums[i] == nums[i-1] && !visited[i-1] {
+				//如果前面相邻相等元素没用过则跳过,原因:
+				//标准全排列算法之所以出现重复，是因为把相同元素形成的排列序列视为不同的序列，但实际上它们应该是相同的；而如果固定相同元素形成的序列顺序，当然就避免了重复。
+				continue
+			}
+			// 做选择
+			option = append(option, nums[i])
+			visited[i] = true
+			// 进入下一层决策树
+			backtrack(nums, option, visited)
+			// 取消选择
+			option = option[:len(option)-1]
+			visited[i] = false
+		}
+	}
+	backtrack(nums, option, visited)
+	return ans
+}
+
 // lc78 子集问题[前提：元素无重复不可复选]
 // 我们通过保证元素之间的相对顺序不变来防止出现重复的子集。
 func subsets(nums []int) [][]int {
@@ -95,6 +141,121 @@ func combine(n int, k int) [][]int {
 		}
 	}
 	backtrack(n, 1, option)
+	return ans
+}
+
+// lc39  组合总和 [前提:无重复元素，元素可复用]
+// 输入数组无重复元素，但每个元素可以被无限次使用。
+// 相当于给之前的回溯树添加了一条树枝，在遍历这棵树的过程中，一个元素可以被无限次使用
+// 回溯树会永远生长下去，所以我们的递归函数需要设置合适的 base case 以结束算法，即路径和大于 target 时就没必要再遍历下去
+func combinationSum(candidates []int, target int) [][]int {
+	ans := make([][]int, 0)
+	if len(candidates) == 0 {
+		return ans
+	}
+	// 记录选择
+	option := make([]int, 0)
+	// 使用闭包是不想返回res了，比较麻烦
+	var backtrack func(nums []int, start int, option []int, sum int)
+	backtrack = func(nums []int, start int, option []int, sum int) {
+		if sum == target {
+			ans = append(ans, append([]int{}, option...))
+			return
+		}
+		if sum > target {
+			//超过目标和,则结束
+			return
+		}
+		for i := start; i < len(nums); i++ {
+			// 做选择
+			option = append(option, nums[i])
+			sum += nums[i]
+			// 进入下一层决策树
+			backtrack(nums, i, option, sum)
+			// 取消选择
+			sum -= nums[i]
+			option = option[:len(option)-1]
+		}
+	}
+	var sum int
+	backtrack(candidates, 0, option, sum)
+	return ans
+}
+
+// lc40 组合中取和为target不重复组合元素[前提：元素不重复,不复用] 排序+剪枝
+func combinationSum2(candidates []int, target int) [][]int {
+	ans := make([][]int, 0)
+	if len(candidates) == 0 {
+		return ans
+	}
+	sort.Ints(candidates)
+	// 记录选择
+	option := make([]int, 0)
+	// 使用闭包是不想返回res了，比较麻烦
+	var backtrack func(nums []int, start int, option []int, sum int)
+	backtrack = func(nums []int, start int, option []int, sum int) {
+		if sum == target {
+			ans = append(ans, append([]int{}, option...))
+			return
+		}
+		if sum > target {
+			//超过目标和,则结束
+			return
+		}
+		for i := start; i < len(nums); i++ {
+			// 剪枝:相邻相等元素只取第一个[弱水三千,我只取一瓢]
+			if i > start && nums[i] == nums[i-1] {
+				continue
+			}
+			// 做选择
+			option = append(option, nums[i])
+			sum += nums[i]
+			// 进入下一层决策树
+			backtrack(nums, i+1, option, sum)
+			// 取消选择
+			sum -= nums[i]
+			option = option[:len(option)-1]
+		}
+	}
+	var sum int
+	backtrack(candidates, 0, option, sum)
+	return ans
+}
+
+// lc216 找出所有相加之和为 n 的 k 个数的组合,[前提每个元素只能使用一次]
+func combinationSum3(k int, n int) [][]int {
+	ans := make([][]int, 0)
+	// k个数  n为目标和
+	// 在[1,9]范围内使用k个不同的数字,和一定要大于等于k
+	if n < k {
+		return ans
+	}
+	// 记录选择
+	option := make([]int, 0)
+	// 使用闭包是不想返回res了，比较麻烦
+	var backtrack func(targetSum int, start int, option []int, sum int)
+	backtrack = func(targetSum int, start int, option []int, sum int) {
+		if len(option) == k && targetSum == sum {
+			ans = append(ans, append([]int{}, option...))
+			return
+		}
+		// 避免无限递归
+		if len(option) > k || sum > targetSum {
+			return
+		}
+		for i := start; i <= 9; i++ {
+			// 做选择
+			option = append(option, i)
+			sum += i
+			// 进入下一层决策树
+			backtrack(targetSum, i+1, option, sum)
+			// 取消选择
+			option = option[:len(option)-1]
+			sum -= i
+		}
+	}
+	var sum int
+	backtrack(n, 1, option, sum)
 	return ans
 }
 
