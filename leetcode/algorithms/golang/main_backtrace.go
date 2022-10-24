@@ -8,8 +8,9 @@ import (
 
 func main() {
 
-	ans := permute([]int{1, 2, 3})
-	fmt.Println(ans)
+	//ans := permute([]int{1, 2, 3})
+	//fmt.Println(ans)
+	numIslandsTest()
 }
 
 // lc46 全排列问题[前提：元素无重复不可复选]
@@ -362,4 +363,44 @@ func isValidElement(board [][]string, row, col int) bool {
 		}
 	}
 	return true
+}
+func numIslandsTest() {
+	grid := make([][]byte, 0)
+	rank0 := []byte{'1', '1', '1', '1', '0'}
+	rank1 := []byte{'1', '1', '0', '1', '0'}
+	rank2 := []byte{'1', '1', '0', '0', '0'}
+	rank3 := []byte{'0', '0', '0', '0', '0'}
+	grid = append(grid, rank0, rank1, rank2, rank3)
+	fmt.Println(numIslands(grid))
+}
+func numIslands(grid [][]byte) int {
+	var res int
+	m, n := len(grid), len(grid[0])
+	// 遍历grid
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if grid[i][j] == '1' {
+				res++
+				//每发现1个岛屿，数量加1后将周围的岛屿全部淹没,类似visit
+				dfs(grid, i, j)
+			}
+		}
+	}
+	return res
+}
+
+// dfs 从(i,j)开始将与之相邻的陆地变为海水
+func dfs(grid [][]byte, i, j int) {
+	if i < 0 || j < 0 || i >= len(grid) || j >= len(grid[0]) {
+		return
+	}
+	if grid[i][j] == '0' {
+		return
+	}
+	//将自身及周围上下左右都淹没
+	grid[i][j] = '0'
+	dfs(grid, i-1, j)
+	dfs(grid, i+1, j)
+	dfs(grid, i, j-1)
+	dfs(grid, i, j+1)
 }
