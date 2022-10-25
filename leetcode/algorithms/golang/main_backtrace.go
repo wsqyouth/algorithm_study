@@ -10,7 +10,8 @@ func main() {
 
 	//ans := permute([]int{1, 2, 3})
 	//fmt.Println(ans)
-	numIslandsTest()
+	//numIslandsTest()
+	closedIslandTest()
 }
 
 // lc46 全排列问题[前提：元素无重复不可复选]
@@ -373,6 +374,8 @@ func numIslandsTest() {
 	grid = append(grid, rank0, rank1, rank2, rank3)
 	fmt.Println(numIslands(grid))
 }
+
+// lc200  岛屿数量
 func numIslands(grid [][]byte) int {
 	var res int
 	m, n := len(grid), len(grid[0])
@@ -403,4 +406,58 @@ func dfs(grid [][]byte, i, j int) {
 	dfs(grid, i+1, j)
 	dfs(grid, i, j-1)
 	dfs(grid, i, j+1)
+}
+
+func closedIslandTest() {
+	grid := [][]int{
+		[]int{1, 1, 1, 1, 1, 1, 1, 0},
+		[]int{1, 0, 0, 0, 0, 1, 1, 0},
+		[]int{1, 0, 1, 0, 1, 1, 1, 0},
+		[]int{1, 0, 0, 0, 0, 1, 0, 1},
+		[]int{1, 1, 1, 1, 1, 1, 1, 0},
+	}
+	fmt.Println(closedIsland(grid))
+}
+
+// lc1254 封闭岛屿数量[把四周边全部淹掉]
+func closedIsland(grid [][]int) int {
+	var res int
+	m, n := len(grid), len(grid[0])
+	for i := 0; i < m; i++ {
+		// 把左靠边、右靠边的淹掉
+		dfs1254(grid, i, 0)
+		dfs1254(grid, i, n-1)
+	}
+	for j := 0; j < n; j++ {
+		// 把上靠边、下靠边的淹掉
+		dfs1254(grid, 0, j)
+		dfs1254(grid, m-1, j)
+	}
+	// 遍历grid
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if grid[i][j] == 0 {
+				res++
+				//每发现1个岛屿，数量加1后将周围的岛屿全部淹没,类似visit
+				dfs1254(grid, i, j)
+			}
+		}
+	}
+	return res
+}
+
+// dfs 从(i,j)开始将与之相邻的陆地变为海水
+func dfs1254(grid [][]int, i, j int) {
+	if i < 0 || j < 0 || i >= len(grid) || j >= len(grid[0]) {
+		return
+	}
+	if grid[i][j] == 1 {
+		return
+	}
+	//将自身及周围上下左右都淹没
+	grid[i][j] = 1
+	dfs1254(grid, i-1, j)
+	dfs1254(grid, i+1, j)
+	dfs1254(grid, i, j-1)
+	dfs1254(grid, i, j+1)
 }
