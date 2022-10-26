@@ -11,7 +11,8 @@ func main() {
 	//ans := permute([]int{1, 2, 3})
 	//fmt.Println(ans)
 	//numIslandsTest()
-	closedIslandTest()
+	//closedIslandTest()
+	maxAreaOfIslandTest()
 }
 
 // lc46 全排列问题[前提：元素无重复不可复选]
@@ -460,4 +461,58 @@ func dfs1254(grid [][]int, i, j int) {
 	dfs1254(grid, i+1, j)
 	dfs1254(grid, i, j-1)
 	dfs1254(grid, i, j+1)
+}
+
+func maxAreaOfIslandTest() {
+	grid := [][]int{
+		[]int{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+		[]int{0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
+		[]int{0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+		[]int{0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0},
+		[]int{0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0},
+		[]int{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+		[]int{0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
+		[]int{0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
+	}
+	fmt.Println(maxAreaOfIsland(grid))
+}
+
+// lc695 计算岛屿的最大面积
+func maxAreaOfIsland(grid [][]int) int {
+	var res int
+	m, n := len(grid), len(grid[0])
+	// 遍历grid
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			// 淹没岛屿，并更新最大岛屿面积
+			if grid[i][j] == 1 {
+				res = maxVal(dfsArea(grid, i, j), res)
+			}
+		}
+	}
+	return res
+}
+
+// dfs 从(i,j)开始将与之相邻的陆地变为海水,并返还陆地面积
+func dfsArea(grid [][]int, i, j int) int {
+	if i < 0 || j < 0 || i >= len(grid) || j >= len(grid[0]) {
+		return 0
+	}
+	if grid[i][j] == 0 {
+		return 0
+	}
+	//将自身淹没
+	grid[i][j] = 0
+	return dfsArea(grid, i-1, j) +
+		dfsArea(grid, i+1, j) +
+		dfsArea(grid, i, j-1) +
+		dfsArea(grid, i, j+1) + 1
+}
+
+func maxVal(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
 }
