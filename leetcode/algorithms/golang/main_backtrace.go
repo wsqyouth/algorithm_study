@@ -12,7 +12,8 @@ func main() {
 	//fmt.Println(ans)
 	//numIslandsTest()
 	//closedIslandTest()
-	maxAreaOfIslandTest()
+	//maxAreaOfIslandTest()
+	countSubIslandsTest()
 }
 
 // lc46 全排列问题[前提：元素无重复不可复选]
@@ -515,4 +516,63 @@ func maxVal(a, b int) int {
 	} else {
 		return b
 	}
+}
+
+func countSubIslandsTest() {
+	grid1 := [][]int{
+		[]int{1, 1, 1, 0, 0},
+		[]int{0, 1, 1, 1, 1},
+		[]int{0, 0, 0, 0, 0},
+		[]int{1, 0, 0, 0, 0},
+		[]int{1, 1, 0, 1, 1},
+	}
+	grid2 := [][]int{
+		[]int{1, 1, 1, 0, 0},
+		[]int{0, 0, 1, 1, 1},
+		[]int{0, 1, 0, 0, 0},
+		[]int{1, 0, 1, 1, 0},
+		[]int{0, 1, 0, 1, 0},
+	}
+	fmt.Println(countSubIslands(grid1, grid2))
+}
+
+// lc1905 统计子岛屿 反过来说，如果岛屿 B 中存在一片陆地，在岛屿 A 的对应位置是海水，那么岛屿 B 就不是岛屿 A 的子岛。
+func countSubIslands(grid1 [][]int, grid2 [][]int) int {
+	var res int
+	m, n := len(grid1), len(grid1[0])
+	// 将岛屿2在岛屿1中不是岛屿的全部淹掉
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if grid2[i][j] == 1 && grid1[i][j] == 0 {
+				dfs1905(grid2, i, j)
+			}
+		}
+	}
+	// 重新遍历grid2,计算岛屿的个数
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if grid2[i][j] == 1 {
+				res++
+				//每发现1个岛屿，数量加1后将周围的岛屿全部淹没,类似visit
+				dfs1905(grid2, i, j)
+			}
+		}
+	}
+	return res
+}
+
+// dfs 从(i,j)开始将与之相邻的陆地变为海水
+func dfs1905(grid [][]int, i, j int) {
+	if i < 0 || j < 0 || i >= len(grid) || j >= len(grid[0]) {
+		return
+	}
+	if grid[i][j] == 0 {
+		return
+	}
+	//将自身及周围上下左右都淹没
+	grid[i][j] = 0
+	dfs1905(grid, i-1, j)
+	dfs1905(grid, i+1, j)
+	dfs1905(grid, i, j-1)
+	dfs1905(grid, i, j+1)
 }
