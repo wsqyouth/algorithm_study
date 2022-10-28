@@ -13,7 +13,8 @@ func main() {
 	//numIslandsTest()
 	//closedIslandTest()
 	//maxAreaOfIslandTest()
-	countSubIslandsTest()
+	//countSubIslandsTest()
+	fmt.Println(generateParenthesis(3))
 }
 
 // lc46 全排列问题[前提：元素无重复不可复选]
@@ -575,4 +576,43 @@ func dfs1905(grid [][]int, i, j int) {
 	dfs1905(grid, i+1, j)
 	dfs1905(grid, i, j-1)
 	dfs1905(grid, i, j+1)
+}
+
+// lc22 生成括号
+//一个「合法」括号组合的左括号数量一定等于右括号数量，这个很好理解。
+//对于一个「合法」的括号字符串组合 p，必然对于任何  0 <= i < len(p) 都有：子串 p[0..i] 中左括号的数量都大于或等于右括号的数量。
+func generateParenthesis(n int) []string {
+	ans := make([]string, 0)
+	if n <= 0 {
+		return ans
+	}
+	// 做选择
+	option := make([]string, 0)
+	//使用闭包是不想返回ans,比较麻烦
+	var backtrack func(left int, right int, option []string)
+	backtrack = func(left int, right int, option []string) {
+		// 性质2
+		if right < left {
+			return
+		}
+		if left < 0 || right < 0 {
+			return
+		}
+		if left == 0 && right == 0 {
+			ans = append(ans, strings.Join(option, ""))
+			//fmt.Println(strings.Join(option, ""))
+			return
+		}
+		//尝试放(
+		option = append(option, "(")
+		backtrack(left-1, right, option)
+		option = option[:len(option)-1]
+
+		//尝试放)
+		option = append(option, ")")
+		backtrack(left, right-1, option)
+		option = option[:len(option)-1]
+	}
+	backtrack(n, n, option)
+	return ans
 }
