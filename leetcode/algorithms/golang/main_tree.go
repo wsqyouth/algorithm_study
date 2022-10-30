@@ -10,13 +10,14 @@ import (
 
 type TreeNode = structures.TreeNode
 
+/*
 func main() {
 	//sortArrayTest()
 	//findKthLargestTest()
 	//topKFrequentTest()
 	//fmt.Println(numTrees(3))
-	fmt.Println(openLock([]string{"0201", "0101", "0102", "1212", "2002"}, "0202"))
 }
+*/
 
 // lc 144 二叉树的前序遍历
 func preorderTraversal(root *structures.TreeNode) []int {
@@ -903,67 +904,4 @@ func minDepth(root *TreeNode) int {
 		depth++
 	}
 	return depth
-}
-
-// lc752 BFS 最小转动次数
-// TODO: 优化空间双向BFS
-func openLock(deadends []string, target string) int {
-	visit := map[string]bool{} //保存被访问的数字,避免回头循环
-	deadMap := make(map[string]bool, len(deadends))
-	for _, dead := range deadends {
-		deadMap[dead] = true
-	}
-	queue := make([]string, 0)
-	queue = append(queue, "0000")
-	visit["0000"] = true
-	step := 0
-	for len(queue) > 0 {
-		n := len(queue)
-		for i := 0; i < n; i++ {
-			cutStr := queue[i]
-			// 判断是否到达终点及黑名单
-			if deadMap[cutStr] {
-				continue
-			}
-			if cutStr == target {
-				return step
-			}
-			for j := 0; j < 4; j++ {
-				up := plusOne(cutStr, j)
-				if !visit[up] {
-					visit[up] = true
-					queue = append(queue, up)
-				}
-				down := minusOne(cutStr, j)
-				if !visit[down] {
-					visit[down] = true
-					queue = append(queue, down)
-				}
-			}
-		}
-		queue = queue[n:]
-		step++
-	}
-	// 如果穷举完都没找到目标密码，那就是找不到了
-	return -1
-}
-
-func plusOne(s string, i int) string {
-	strByte := []byte(s)
-	if strByte[i] == '9' {
-		strByte[i] = '0'
-	} else {
-		strByte[i] += 1
-	}
-	return string(strByte)
-}
-
-func minusOne(s string, i int) string {
-	strByte := []byte(s)
-	if strByte[i] == '0' {
-		strByte[i] = '9'
-	} else {
-		strByte[i] -= 1
-	}
-	return string(strByte)
 }

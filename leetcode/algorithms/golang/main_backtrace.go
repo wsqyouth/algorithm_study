@@ -6,18 +6,17 @@ import (
 	"strings"
 )
 
-/*
 func main() {
-
 	//ans := permute([]int{1, 2, 3})
 	//fmt.Println(ans)
 	//numIslandsTest()
 	//closedIslandTest()
 	//maxAreaOfIslandTest()
 	//countSubIslandsTest()
-	fmt.Println(generateParenthesis(3))
+	//fmt.Println(generateParenthesis(3))
+	//fmt.Println(openLock([]string{"0201", "0101", "0102", "1212", "2002"}, "0202"))
+	slidingPuzzleTest()
 }
-*/
 
 // lc46 全排列问题[前提：元素无重复不可复选]
 func permute(nums []int) [][]int {
@@ -617,4 +616,202 @@ func generateParenthesis(n int) []string {
 	}
 	backtrack(n, n, option)
 	return ans
+}
+
+// lc752 BFS 最小转动次数
+// TODO: 优化空间双向BFS
+func openLock(deadends []string, target string) int {
+	visit := map[string]bool{} //保存被访问的数字,避免回头循环
+	deadMap := make(map[string]bool, len(deadends))
+	for _, dead := range deadends {
+		deadMap[dead] = true
+	}
+	queue := make([]string, 0)
+	queue = append(queue, "0000")
+	visit["0000"] = true
+	step := 0
+	for len(queue) > 0 {
+		n := len(queue)
+		for i := 0; i < n; i++ {
+			cutStr := queue[i]
+			// 判断是否到达终点及黑名单
+			if deadMap[cutStr] {
+				continue
+			}
+			if cutStr == target {
+				return step
+			}
+			for j := 0; j < 4; j++ {
+				up := plusOne(cutStr, j)
+				if !visit[up] {
+					visit[up] = true
+					queue = append(queue, up)
+				}
+				down := minusOne(cutStr, j)
+				if !visit[down] {
+					visit[down] = true
+					queue = append(queue, down)
+				}
+			}
+		}
+		queue = queue[n:]
+		step++
+	}
+	// 如果穷举完都没找到目标密码，那就是找不到了
+	return -1
+}
+
+func plusOne(s string, i int) string {
+	strByte := []byte(s)
+	if strByte[i] == '9' {
+		strByte[i] = '0'
+	} else {
+		strByte[i] += 1
+	}
+	return string(strByte)
+}
+
+func minusOne(s string, i int) string {
+	strByte := []byte(s)
+	if strByte[i] == '0' {
+		strByte[i] = '9'
+	} else {
+		strByte[i] -= 1
+	}
+	return string(strByte)
+}
+
+func slidingPuzzleTest() {
+	board := [][]int{
+		[]int{4, 1, 2},
+		[]int{5, 0, 3},
+	}
+	fmt.Println(slidingPuzzle(board))
+}
+
+// lc773 数字华容道
+//TODO: 计算初始面板相邻坐标索引可以使用函数计算,不需要固定法
+func slidingPuzzle(board [][]int) int {
+	const target = "123450"
+	boardByte := make([]byte, 0, 6)
+	for _, r := range board {
+		for _, v := range r {
+			boardByte = append(boardByte, '0'+byte(v))
+		}
+	}
+	start := string(boardByte)
+	if start == target {
+		return 0
+	}
+	step := 0
+	visit := map[string]bool{}
+	queue := make([]string, 0)
+	queue = append(queue, start)
+	visit[start] = true
+	for len(queue) > 0 {
+		n := len(queue)
+		for i := 0; i < n; i++ {
+			curNum := queue[i]
+			// 检查是否到达终点
+			if curNum == target {
+				return step
+			}
+			// 0的相邻点,其实就是棋局里原有位置的相邻节点
+			zeroIndex, zeroNeighbours := getZeroNeighbours(curNum)
+			for _, adjIndex := range zeroNeighbours {
+				newNum := changeNum(curNum, zeroIndex, adjIndex)
+				if !visit[newNum] {
+					visit[newNum] = true
+					queue = append(queue, newNum)
+				}
+			}
+
+		}
+		queue = queue[n:]
+		step++
+	}
+	return -1
+}
+
+func changeNum(str string, i int, j int) string {
+	strByte := []byte(str)
+	temp := strByte[i]
+	strByte[i] = strByte[j]
+	strByte[j] = temp
+	return string(strByte)
+}
+
+// 返回0的索引及对应原有棋盘该节点的所有相邻点
+func getZeroNeighbours(num string) (int, []int) {
+	var zeroIndex int
+	numByte := []byte(num)
+	for i := 0; i < len(numByte); i++ {
+		if numByte[i] == '0' {
+			zeroIndex = i
+			break
+		}
+	}
+	neighbours := [6][]int{
+		{1, 3},
+		{0, 2, 4},
+		{1, 5},
+		{0, 4},
+		{3, 1, 5},
+		{4, 2},
+	}
+
+	return zeroIndex, neighbours[zeroIndex]
+}
+
+// lc32 解数独回溯
+func solveSudoku(board [][]byte) {
+	backtrackBoard(board, 0, 0)
+}
+func backtrackBoard(board [][]byte, i int, j int) bool {
+	m, n := 9, 9
+	if j == n {
+		//穷举到最后一列则进行下一行
+		return backtrackBoard(board, i+1, 0)
+	}
+	if i == m {
+		// 找到可行解，触发base case
+		return true
+	}
+	if board[i][j] != '.' {
+		return backtrackBoard(board, i, j+1)
+	}
+	possibleChar := []byte{'1', '2', '3', '4', '5', '6', '7', '8', '9'}
+	for _, ch := range possibleChar {
+		if !isValidBoard(board, i, j, ch) {
+			continue
+		}
+		board[i][j] = ch
+		//如果找到一个可行解,立即结束
+		if backtrackBoard(board, i, j+1) {
+			return true
+		}
+		board[i][j] = '.'
+	}
+	//穷举完仍没有则此路不通
+	return false
+}
+
+// 判断 board[r][c] 是否可以填入ch
+func isValidBoard(board [][]byte, r int, c int, ch byte) bool {
+
+	for i := 0; i < 9; i++ {
+		// 判断行是否存在重复
+		if board[r][i] == ch {
+			return false
+		}
+		// 判断列是否存在重复
+		if board[i][c] == ch {
+			return false
+		}
+		// 判断 3 x 3 方框是否存在重复
+		if board[(r/3)*3+i/3][(c/3)*3+i%3] == ch {
+			return false
+		}
+	}
+	return true
 }
