@@ -875,3 +875,33 @@ func countNodes(root *TreeNode) int {
 	// 如果左右高度不同，则按照普通二叉树进行计算
 	return 1 + countNodes(root.Left) + countNodes(root.Right)
 }
+
+// lc111 二叉树的最小深度算法,BFS
+func minDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	depth := 1 //root本身为第一层
+	queue := make([]*TreeNode, 0)
+	queue = append(queue, root)
+	for len(queue) > 0 {
+		n := len(queue)
+		// 从当前节点向四周临近节点扩散
+		for i := 0; i < n; i++ {
+			// 判断是否到达目标点
+			if queue[i].Left == nil && queue[i].Right == nil {
+				return depth
+			}
+			// 将临近节点加入队列,BFS进入下一层
+			if queue[i].Left != nil {
+				queue = append(queue, queue[i].Left)
+			}
+			if queue[i].Right != nil {
+				queue = append(queue, queue[i].Right)
+			}
+		}
+		queue = queue[n:]
+		depth++
+	}
+	return depth
+}
