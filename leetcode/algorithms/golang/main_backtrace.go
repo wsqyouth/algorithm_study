@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+/*
 func main() {
 
 	//ans := permute([]int{1, 2, 3})
@@ -16,6 +17,7 @@ func main() {
 	//countSubIslandsTest()
 	fmt.Println(generateParenthesis(3))
 }
+*/
 
 // lc46 全排列问题[前提：元素无重复不可复选]
 func permute(nums []int) [][]int {
