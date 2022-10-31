@@ -15,7 +15,8 @@ func main() {
 	//countSubIslandsTest()
 	//fmt.Println(generateParenthesis(3))
 	//fmt.Println(openLock([]string{"0201", "0101", "0102", "1212", "2002"}, "0202"))
-	slidingPuzzleTest()
+	//slidingPuzzleTest()
+	nextPermutationTest()
 }
 
 // lc46 全排列问题[前提：元素无重复不可复选]
@@ -809,9 +810,52 @@ func isValidBoard(board [][]byte, r int, c int, ch byte) bool {
 			return false
 		}
 		// 判断 3 x 3 方框是否存在重复
+		// ref: https://pasteboard.co/fyW9xjeDA6fH.png
 		if board[(r/3)*3+i/3][(c/3)*3+i%3] == ch {
 			return false
 		}
 	}
 	return true
+}
+
+func nextPermutationTest() {
+	nums := []int{8, 9, 6, 10, 7, 2}
+	nextPermutation(nums)
+	fmt.Println(nums)
+}
+
+// lc31 下一个全排列
+// ref: https://books.halfrost.com/leetcode/ChapterFour/0001~0099/0031.Next-Permutation/
+func nextPermutation(nums []int) {
+	i, j := 0, 0
+	for i = len(nums) - 2; i >= 0; i-- {
+		if nums[i] < nums[i+1] {
+			break
+		}
+	}
+	fmt.Println(i)
+	if i > 0 {
+		for j = len(nums) - 1; j > i; j-- {
+			if nums[j] > nums[i] {
+				break
+			}
+		}
+		fmt.Println(j)
+		swapNumber(&nums, i, j)
+	}
+	reverse(&nums, i+1, len(nums)-1)
+}
+
+func reverse(nums *[]int, i, j int) {
+	for i < j {
+		swapNumber(nums, i, j)
+		i++
+		j--
+	}
+}
+
+func swapNumber(nums *[]int, i int, j int) {
+	temp := (*nums)[j]
+	(*nums)[j] = (*nums)[i]
+	(*nums)[i] = temp
 }
