@@ -819,12 +819,15 @@ func isValidBoard(board [][]byte, r int, c int, ch byte) bool {
 }
 
 func nextPermutationTest() {
-	nums := []int{8, 9, 6, 10, 7, 2}
+	//nums := []int{1, 4, 7, 6, 5, 3, 2}
+	nums := []int{1, 2}
 	nextPermutation(nums)
 	fmt.Println(nums)
 }
 
 // lc31 下一个全排列
+// 从后往前找到一个降序的数字之后,之后从后往前找到一个比降序数字大的值
+// 交换后,还要将降序右边的数字交换保证为最小
 // ref: https://books.halfrost.com/leetcode/ChapterFour/0001~0099/0031.Next-Permutation/
 func nextPermutation(nums []int) {
 	i, j := 0, 0
@@ -833,14 +836,12 @@ func nextPermutation(nums []int) {
 			break
 		}
 	}
-	fmt.Println(i)
-	if i > 0 {
+	if i >= 0 {
 		for j = len(nums) - 1; j > i; j-- {
 			if nums[j] > nums[i] {
 				break
 			}
 		}
-		fmt.Println(j)
 		swapNumber(&nums, i, j)
 	}
 	reverse(&nums, i+1, len(nums)-1)
