@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 
@@ -904,4 +905,33 @@ func minDepth(root *TreeNode) int {
 		depth++
 	}
 	return depth
+}
+
+func maxPathSum(root *TreeNode) int {
+	res := math.MinInt32
+	oneSideMax(root, &res)
+	return res
+}
+
+// lc124 计算以根节点root为起点的最大单边路径和
+func oneSideMax(root *TreeNode, result *int) int {
+	maxFunc := func(a, b int) int {
+		if a > b {
+			return a
+		} else {
+			return b
+		}
+	}
+	if root == nil {
+		return 0
+	}
+	leftMaxSum := root.Val + oneSideMax(root.Left, result)   // 左半部分
+	rightMaxSum := root.Val + oneSideMax(root.Right, result) //右半部分
+	pathMaxSum := leftMaxSum + rightMaxSum - root.Val        // 左中右连通
+	single := root.Val                                       //单独节点
+	// 左右子树最大单边路径+根节点的值就是结果
+	max := maxFunc(single, maxFunc(leftMaxSum, rightMaxSum))
+
+	*result = maxFunc(*result, maxFunc(max, pathMaxSum))
+	return max
 }
