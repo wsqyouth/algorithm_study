@@ -28,8 +28,8 @@ func permute(nums []int) [][]int {
 	visited := make([]bool, len(nums))
 
 	// 使用闭包是不想返回res了，比较麻烦
-	var backtrace func(nums []int, option []int, visited []bool)
-	backtrace = func(nums []int, option []int, visited []bool) {
+	var backtrack func(nums []int, option []int, visited []bool)
+	backtrack = func(nums []int, option []int, visited []bool) {
 		// 触发结束条件
 		if len(option) == len(nums) {
 			ans = append(ans, append([]int{}, option...))
@@ -44,13 +44,13 @@ func permute(nums []int) [][]int {
 			option = append(option, nums[i])
 			visited[i] = true
 			// 进入下一层决策树
-			backtrace(nums, option, visited)
+			backtrack(nums, option, visited)
 			// 取消选择
 			option = option[:len(option)-1]
 			visited[i] = false
 		}
 	}
-	backtrace(nums, option, visited)
+	backtrack(nums, option, visited)
 	return ans
 }
 
@@ -107,20 +107,20 @@ func subsets(nums []int) [][]int {
 	// 记录选择
 	option := make([]int, 0)
 	// 使用闭包是不想返回res了，比较麻烦
-	var backtrace func(nums []int, start int, option []int)
-	backtrace = func(nums []int, start int, option []int) {
+	var backtrack func(nums []int, start int, option []int)
+	backtrack = func(nums []int, start int, option []int) {
 		// 前序位置，每个节点的值都是一个子集
 		ans = append(ans, append([]int{}, option...))
 		for i := start; i < len(nums); i++ {
 			// 做选择
 			option = append(option, nums[i])
 			// 进入下一层决策树
-			backtrace(nums, i+1, option)
+			backtrack(nums, i+1, option)
 			// 取消选择
 			option = option[:len(option)-1]
 		}
 	}
-	backtrace(nums, 0, option)
+	backtrack(nums, 0, option)
 	return ans
 }
 
