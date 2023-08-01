@@ -5,16 +5,14 @@ import (
 	"math"
 )
 
-/*
 func main() {
 	//climbStairsTest()
-	//fmt.Println(coinChange([]int{3, 2, 5}, 11))
+	fmt.Println(coinChange([]int{3, 2, 5}, 11))
 	//fmt.Println(lengthOfLIS([]int{10, 9, 2, 5, 3, 7, 101, 18}))
 	//fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
 	//fmt.Println(minCostClimbingStairs([]int{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}))
-	fmt.Println(isPalindrome(123))
+	// fmt.Println(isPalindrome(123))
 }
-*/
 
 func climbStairsTest() {
 	fmt.Println(climbStairs(3))
@@ -60,8 +58,41 @@ func minCostClimbingStairs(cost []int) int {
 	return min(dp[len(cost)-1], dp[len(cost)-2])
 }
 
-// lc322 零钱兑换 完全背包
+// lc322 零钱兑换 使用迭代
 func coinChange(coins []int, amount int) int {
+	// base case
+	if amount == 0 {
+		return 0
+	}
+	if amount < 0 {
+		return -1
+	}
+	// dp数组初始化为特殊值
+	dp := make([]int, amount+1)
+	for i := 0; i < len(dp); i++ {
+		dp[i] = math.MaxInt32
+	}
+	dp[0] = 0
+	// 外层遍历所有状态的取值
+	for i := 0; i < len(dp); i++ {
+		// 内层计算所有选择的最小值
+		for _, coin := range coins {
+			// fmt.Println(coin)
+			if i-coin < 0 {
+				continue
+			}
+			dp[i] = min(dp[i], dp[i-coin]+1)
+		}
+	}
+	// 检查是否存在
+	if dp[amount] != math.MaxInt32 {
+		return dp[amount]
+	}
+	return -1
+}
+
+// lc322 零钱兑换 完全背包
+func coinChangeOld(coins []int, amount int) int {
 	// 备忘录
 	memo := make([]int, amount+1)
 	for i := 0; i < len(memo); i++ {
