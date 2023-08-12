@@ -7,11 +7,17 @@ import (
 
 func main() {
 	//climbStairsTest()
-	fmt.Println(coinChange([]int{3, 2, 5}, 11))
+	// fmt.Println(coinChange([]int{3, 2, 5}, 11))
 	//fmt.Println(lengthOfLIS([]int{10, 9, 2, 5, 3, 7, 101, 18}))
 	//fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
 	//fmt.Println(minCostClimbingStairs([]int{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}))
 	// fmt.Println(isPalindrome(123))
+	// fmt.Println(maxProfit([]int{7, 1, 5, 3, 6, 4}))
+	// fmt.Println(maxProfit122([]int{1, 2, 3, 4, 5}))
+	// fmt.Println(maxProfit309([]int{1, 2, 3, 0, 2}))
+	// fmt.Println(maxProfit714([]int{1, 2, 3, 8, 4, 9}, 2))
+	// fmt.Println(maxProfit123([]int{3, 3, 5, 0, 0, 3, 1, 4}))
+	fmt.Println(maxProfit188(2, []int{3, 2, 6, 5, 0, 3}))
 }
 
 func climbStairsTest() {
@@ -219,4 +225,146 @@ func isPalindrome(x int) bool {
 		reverseRes = reverseRes*10 + lastNum
 	}
 	return reverseRes == x
+}
+
+// lc 121 买卖股票的最佳时机,只交易一次
+// 输入：[7,1,5,3,6,4]
+// 输出：5
+// 思路: dp的最简单版本,记录当前价格之前的最小值,同时记录当前价格的最大值,遍历后即可得
+func maxProfit(prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	minPrice, maxProfit := prices[0], 0
+	for i := 1; i < len(prices); i++ {
+		minPrice = min(minPrice, prices[i])
+		maxProfit = max(maxProfit, prices[i]-minPrice)
+	}
+	return maxProfit
+}
+
+// lc 122 买卖股票的最佳时机,可以交易很多次
+func maxProfit122(prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	n := len(prices)
+	dp := make([][2]int, n)
+	dp[0][0] = 0
+	dp[0][1] = -prices[0] //交易第一天不买入为0,买入则成本为prices[0]
+	for i := 1; i < n; i++ {
+		dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i]) //要么没买观望,要么卖
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i]) //要么持有观望,要么买
+	}
+	return dp[n-1][0]
+}
+
+// lc309. 买卖股票的最佳时机含冷冻期
+func maxProfit309(prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	n := len(prices)
+	dp := make([][2]int, n)
+	for i := 0; i < n; i++ {
+		if i-1 == -1 { // base case i=0
+			dp[i][0] = 0
+			dp[i][1] = -prices[i]
+			continue
+		}
+		if i-2 == -1 { // base case i=1
+			dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
+			dp[i][1] = max(dp[i-1][1], -prices[i]) //第2天:要么第一天买过观望,要么第一天没买今天买
+			continue
+		}
+		dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
+		dp[i][1] = max(dp[i-1][1], dp[i-2][0]-prices[i]) //解冻占一天
+	}
+	// fmt.Println(dp)
+	return dp[n-1][0]
+}
+
+// 714. 买卖股票的最佳时机含手续费
+func maxProfit714(prices []int, fee int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	n := len(prices)
+	dp := make([][2]int, n)
+	for i := 0; i < n; i++ {
+		if i-1 == -1 { // base case i=0
+			dp[i][0] = 0
+			dp[i][1] = -prices[i] - fee
+			continue
+		}
+		if i-2 == -1 { // base case i=1
+			dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
+			dp[i][1] = max(dp[i-1][1], -prices[i]-fee) //第2天:要么第一天买过观望,要么第一天没买今天买
+			continue
+		}
+		dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i]-fee) //买时记得扣费
+	}
+	// fmt.Println(dp)
+	return dp[n-1][0]
+}
+
+// 123. 买卖股票的最佳时机 III 只允许交易两次
+func maxProfit123(prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	maxK := 2 // 最大可交易次数
+	n := len(prices)
+	dp := make([][][]int, n) //i表示天数,k表示交易次数,j表示持有状况:0表示未持有,1表示持有
+	for i := 0; i < n; i++ {
+		dp[i] = make([][]int, maxK+1)
+		for k := 0; k < maxK+1; k++ {
+			dp[i][k] = make([]int, 2)
+		}
+	}
+	for i := 0; i < n; i++ {
+		for k := maxK; k > 0; k-- {
+			if i-1 == -1 { // base case i=0
+				dp[i][k][0] = 0
+				dp[i][k][1] = -prices[i]
+				continue
+			}
+			dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1]+prices[i])
+			dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0]-prices[i]) //注意频次需要遍历,同时买时频次减少1
+		}
+	}
+	// 穷举了 n × maxK × 2 个状态
+	return dp[n-1][maxK][0]
+}
+
+// lc188 你最多可以完成 k 笔交易
+// 待优化点,如果k>=n/2,退化为无限次交易了,因为一次交易至少买入卖出各需要一次
+// https://labuladong.github.io/algo/di-er-zhan-a01c6/yong-dong--63ceb/yi-ge-fang-3b01b/
+func maxProfit188(k int, prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	maxK := k
+	n := len(prices)
+	dp := make([][][]int, n) //i表示天数,k表示交易次数,j表示持有状况:0表示未持有,1表示持有
+	for i := 0; i < n; i++ {
+		dp[i] = make([][]int, maxK+1)
+		for k := 0; k < maxK+1; k++ {
+			dp[i][k] = make([]int, 2)
+		}
+	}
+	for i := 0; i < n; i++ {
+		for k := maxK; k > 0; k-- {
+			if i-1 == -1 { // base case i=0
+				dp[i][k][0] = 0
+				dp[i][k][1] = -prices[i]
+				continue
+			}
+			dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1]+prices[i])
+			dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0]-prices[i]) //注意频次需要遍历,同时买时频次减少1
+		}
+	}
+	// 穷举了 n × maxK × 2 个状态
+	return dp[n-1][maxK][0]
 }
