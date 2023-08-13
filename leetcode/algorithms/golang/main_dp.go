@@ -17,7 +17,8 @@ func main() {
 	// fmt.Println(maxProfit309([]int{1, 2, 3, 0, 2}))
 	// fmt.Println(maxProfit714([]int{1, 2, 3, 8, 4, 9}, 2))
 	// fmt.Println(maxProfit123([]int{3, 3, 5, 0, 0, 3, 1, 4}))
-	fmt.Println(maxProfit188(2, []int{3, 2, 6, 5, 0, 3}))
+	// fmt.Println(maxProfit188(2, []int{3, 2, 6, 5, 0, 3}))
+	fmt.Println(trap([]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}))
 }
 
 func climbStairsTest() {
@@ -367,4 +368,49 @@ func maxProfit188(k int, prices []int) int {
 	}
 	// 穷举了 n × maxK × 2 个状态
 	return dp[n-1][maxK][0]
+}
+
+// lc42 接雨水 时间复杂度O(N2) 待优化
+func trapOld(height []int) int {
+	if len(height) == 0 {
+		return 0
+	}
+	ans := 0
+	for i := 1; i < len(height); i++ {
+		leftMax, rightMax := 0, 0
+		// 右边最高柱子
+		for j := i; j < len(height); j++ {
+			rightMax = max(rightMax, height[j])
+		}
+		// 左边最高柱子
+		for j := i; j >= 0; j-- {
+			leftMax = max(leftMax, height[j])
+		}
+		// 计算能装的水
+		ans += min(leftMax, rightMax) - height[i]
+	}
+	return ans
+}
+
+// lc42 接雨水 直接计算好每个位置的leftMax,rightMax
+func trap(height []int) int {
+	if len(height) == 0 {
+		return 0
+	}
+	ans := 0
+	n := len(height)
+	leftMaxArr := make([]int, n) //备忘录
+	rightMaxArr := make([]int, n)
+	leftMaxArr[0] = height[0]
+	rightMaxArr[n-1] = height[n-1]
+	for i := 1; i < len(height); i++ {
+		leftMaxArr[i] = max(leftMaxArr[i-1], height[i])
+	}
+	for j := n - 2; j >= 0; j-- {
+		rightMaxArr[j] = max(rightMaxArr[j+1], height[j])
+	}
+	for i := 0; i < n; i++ {
+		ans += min(leftMaxArr[i], rightMaxArr[i]) - height[i]
+	}
+	return ans
 }

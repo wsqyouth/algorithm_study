@@ -935,3 +935,39 @@ func oneSideMax(root *TreeNode, result *int) int {
 	*result = maxFunc(*result, maxFunc(max, pathMaxSum))
 	return max
 }
+
+// lc 226. 翻转二叉树
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	traverse(root)
+	return root
+}
+
+func traverse(root *TreeNode) {
+	if root == nil {
+		return
+	}
+	// 前序遍历
+	tmp := root.Left
+	root.Left = root.Right
+	root.Right = tmp
+
+	traverse(root.Left)
+	traverse(root.Right)
+}
+
+// lc617 合并二叉树
+func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
+	if root1 == nil {
+		return root2
+	}
+	if root2 == nil {
+		return root1
+	}
+	root1.Val += root2.Val //仍然是前序遍历
+	root1.Left = mergeTrees(root1.Left, root2.Left)
+	root1.Right = mergeTrees(root1.Right, root2.Right)
+	return root1
+}
