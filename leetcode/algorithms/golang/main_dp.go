@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+/*
 func main() {
 	//climbStairsTest()
 	// fmt.Println(coinChange([]int{3, 2, 5}, 11))
@@ -20,7 +21,7 @@ func main() {
 	// fmt.Println(maxProfit188(2, []int{3, 2, 6, 5, 0, 3}))
 	fmt.Println(trap([]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}))
 }
-
+*/
 func climbStairsTest() {
 	fmt.Println(climbStairs(3))
 }
