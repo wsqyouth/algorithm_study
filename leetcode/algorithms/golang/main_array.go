@@ -6,7 +6,8 @@ func main() {
 	// mergeInplaceTest()
 	// fmt.Println(search([]int{1}, 3))
 	// fmt.Println(findDuplicate([]int{1, 3, 4, 2, 2}))
-	fmt.Println(searchRange([]int{5, 7, 7, 8, 8, 8, 10}, 8))
+	// fmt.Println(searchRange([]int{5, 7, 7, 8, 8, 8, 10}, 8))
+	fmt.Println(search2([]int{1, 0, 1, 1, 1}, 0))
 }
 
 //
@@ -89,6 +90,41 @@ func search(nums []int, target int) int {
 		}
 	}
 	return -1
+}
+
+// lc81 搜索旋转数组带重复元素
+func search2(nums []int, target int) bool {
+	if len(nums) == 0 {
+		return false
+	}
+	left, right := 0, len(nums)-1
+	for left <= right {
+		for left < right && nums[left] == nums[left+1] {
+			left++
+		}
+		for left < right && nums[right] == nums[right-1] {
+			right--
+		}
+		mid := left + (right-left)/2
+		if nums[mid] == target {
+			return true
+		}
+
+		if nums[mid] >= nums[left] { //前部分有序
+			if target >= nums[left] && target < nums[mid] { //前半部分升序
+				right = mid - 1
+			} else {
+				left = mid + 1 //后半部分无序
+			}
+		} else {
+			if target > nums[mid] && target <= nums[right] {
+				left = mid + 1
+			} else {
+				right = mid - 1
+			}
+		}
+	}
+	return false
 }
 
 //lc32 寻找target的左边界,右边界
