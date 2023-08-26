@@ -7,7 +7,8 @@ func main() {
 	// fmt.Println(search([]int{1}, 3))
 	// fmt.Println(findDuplicate([]int{1, 3, 4, 2, 2}))
 	// fmt.Println(searchRange([]int{5, 7, 7, 8, 8, 8, 10}, 8))
-	fmt.Println(search2([]int{1, 0, 1, 1, 1}, 0))
+	// fmt.Println(search2([]int{1, 0, 1, 1, 1}, 0))
+	fmt.Println(removeDuplicates([]int{1, 1, 1, 2, 2, 3}))
 }
 
 //
@@ -177,4 +178,49 @@ func rightBound(nums []int, target int) int {
 		return right
 	}
 	return -1
+}
+
+// lc80
+// 给你一个有序数组 nums ，请你 原地 删除重复出现的元素，使得出现次数超过两次的元素只出现两次 ，返回删除后数组的新长度。
+// 输入：nums = [1,1,1,2,2,3]
+// 输出：5, nums = [1,1,2,2,3]
+func removeDuplicatesBad(nums []int) int { //这是我写的，太复杂了，虽然是双指针也有漏洞
+	if len(nums) == 0 {
+		return 0
+	}
+	slow, fast := 0, 0
+	count := 1
+	for fast < len(nums)-1 {
+		for fast < len(nums)-1 && nums[fast] == nums[fast+1] {
+			count++
+			fast++
+		}
+		fmt.Println(fast, nums[fast], count)
+
+		if count > 2 {
+			slow += 2
+		} else {
+			slow += count
+		}
+		count = 1
+		fast++
+	}
+	return slow
+}
+
+func removeDuplicates(nums []int) int {
+	if len(nums) <= 2 {
+		return len(nums)
+	}
+	slow, fast := 2, 2
+	count := 0
+	for fast < len(nums) {
+		if count < 2 || nums[fast] != nums[slow] {
+			nums[slow] = nums[fast]
+			slow++
+		}
+		fmt.Println(fast, nums[fast], count)
+		fast++
+	}
+	return slow
 }

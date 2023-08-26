@@ -6,6 +6,7 @@ import (
 )
 
 /*
+ */
 func main() {
 	//climbStairsTest()
 	// fmt.Println(coinChange([]int{3, 2, 5}, 11))
@@ -19,9 +20,12 @@ func main() {
 	// fmt.Println(maxProfit714([]int{1, 2, 3, 8, 4, 9}, 2))
 	// fmt.Println(maxProfit123([]int{3, 3, 5, 0, 0, 3, 1, 4}))
 	// fmt.Println(maxProfit188(2, []int{3, 2, 6, 5, 0, 3}))
-	fmt.Println(trap([]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}))
+	// fmt.Println(trap([]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}))
+	// fmt.Println(rob([]int{2, 7, 9, 3, 1}))
+	// fmt.Println(rob213([]int{1, 2, 3, 1}))
+	fmt.Println(maxArea([]int{1, 8, 6, 2, 5, 4, 8, 3, 7}))
 }
-*/
+
 func climbStairsTest() {
 	fmt.Println(climbStairs(3))
 }
@@ -414,4 +418,75 @@ func trap(height []int) int {
 		ans += min(leftMaxArr[i], rightMaxArr[i]) - height[i]
 	}
 	return ans
+}
+
+// lc198 打家劫舍
+func rob(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	n := len(nums)
+	// base case
+	dp := make([]int, n)
+	dp[0] = nums[0]
+	dp[1] = max(nums[1], dp[0])
+	// dp[2] = max(dp[1], dp[0]+nums[2]) //找规律迭代
+	for i := 2; i < n; i++ {
+		dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+	}
+	// fmt.Println(dp)
+	return dp[n-1]
+}
+
+// lc198范围版本
+func robRange(nums []int, start int, end int) int {
+	if start == end {
+		return nums[start]
+	}
+	dp := make([]int, len(nums))
+	dp[start] = nums[start]
+	dp[start+1] = max(nums[start+1], nums[start])
+	for i := start + 2; i <= end; i++ {
+		dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+	}
+	return dp[end]
+}
+
+// lc213 打家劫舍2
+func rob213(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	//首尾房间不能同时被抢，那么只可能有三种不同情况：
+	// 要么都不被抢[忽略]；要么第一间房子被抢最后一间不抢；要么最后一间房子被抢第一间不抢
+	n := len(nums)
+	firstRobRes := robRange(nums, 0, n-2)
+	firstRobNotRes := robRange(nums, 1, n-1)
+	return max(firstRobRes, firstRobNotRes)
+}
+
+// lc11 盛最多水的容器
+// 间距在注定会缩小的情况下,另一个较小的先移动能找到最大的乘积值
+func maxArea(height []int) int {
+	if len(height) < 2 {
+		return 0
+	}
+	left, right := 0, len(height)-1
+	var areaMax int
+	for left <= right {
+		area := min(height[left], height[right]) * (right - left)
+		areaMax = max(areaMax, area)
+		if height[left] < height[right] {
+			left++
+		} else {
+			right--
+		}
+	}
+	return areaMax
 }
