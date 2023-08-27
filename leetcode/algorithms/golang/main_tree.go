@@ -11,14 +11,12 @@ import (
 
 type TreeNode = structures.TreeNode
 
-/*
 func main() {
 	//sortArrayTest()
 	//findKthLargestTest()
 	//topKFrequentTest()
 	//fmt.Println(numTrees(3))
 }
-*/
 
 // lc 144 二叉树的前序遍历
 func preorderTraversal(root *structures.TreeNode) []int {
@@ -970,4 +968,61 @@ func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
 	root1.Left = mergeTrees(root1.Left, root2.Left)
 	root1.Right = mergeTrees(root1.Right, root2.Right)
 	return root1
+}
+
+// lc337 打家劫舍树
+// 解法超时:如果你想要优化这段代码，可以考虑使用动态规划或者记忆化搜索来避免重复计算。
+/*
+func rob337(root *TreeNode) int {
+	return dfsRob(root)
+}
+func dfsRob(node *TreeNode) int {
+	if node == nil {
+		return 0
+	}
+	// 抢,去下下家
+	robSelectedVal := node.Val
+	if node.Left != nil {
+		robSelectedVal += dfsRob(node.Left.Left) + dfsRob(node.Left.Right)
+	}
+	if node.Right != nil {
+		robSelectedVal += dfsRob(node.Right.Left) + dfsRob(node.Right.Right)
+	}
+	// 不抢,去下家
+	robNotSelectedVal := dfsRob(node.Left) + dfsRob(node.Right)
+	return max(robSelectedVal, robNotSelectedVal)
+}
+*/
+
+func rob337(root *TreeNode) int {
+	memo := map[*TreeNode]int{}
+	return dfsRob(root, memo)
+}
+func dfsRob(node *TreeNode, memo map[*TreeNode]int) int {
+	if node == nil {
+		return 0
+	}
+	if v, ok := memo[node]; ok {
+		return v
+	}
+	// 抢,去下下家
+	robSelectedVal := node.Val
+	if node.Left != nil {
+		robSelectedVal += dfsRob(node.Left.Left, memo) + dfsRob(node.Left.Right, memo)
+	}
+	if node.Right != nil {
+		robSelectedVal += dfsRob(node.Right.Left, memo) + dfsRob(node.Right.Right, memo)
+	}
+	// 不抢,去下家
+	robNotSelectedVal := dfsRob(node.Left, memo) + dfsRob(node.Right, memo)
+	memo[node] = max(robSelectedVal, robNotSelectedVal)
+	return memo[node]
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
 }

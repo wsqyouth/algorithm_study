@@ -6,7 +6,7 @@ import (
 )
 
 /*
- */
+
 func main() {
 	//climbStairsTest()
 	// fmt.Println(coinChange([]int{3, 2, 5}, 11))
@@ -23,9 +23,11 @@ func main() {
 	// fmt.Println(trap([]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}))
 	// fmt.Println(rob([]int{2, 7, 9, 3, 1}))
 	// fmt.Println(rob213([]int{1, 2, 3, 1}))
-	fmt.Println(maxArea([]int{1, 8, 6, 2, 5, 4, 8, 3, 7}))
+	// fmt.Println(maxArea([]int{1, 8, 6, 2, 5, 4, 8, 3, 7}))
+	// fmt.Println(canJump([]int{0}))
+	fmt.Println(jump([]int{2, 3, 1, 1, 4}))
 }
-
+*/
 func climbStairsTest() {
 	fmt.Println(climbStairs(3))
 }
@@ -489,4 +491,42 @@ func maxArea(height []int) int {
 		}
 	}
 	return areaMax
+}
+
+// lc55 跳跃游戏  参考:https://www.cnblogs.com/labuladong/p/13945671.html
+// 核心在于问题转换: 请问通过题目中的跳跃规则，最多能跳多远？如果能够越过最后一格，返回 true，否则返回 false。
+// 输入：nums = [2,3,1,1,4]
+// 输出：true
+func canJump(nums []int) bool {
+	if len(nums) == 0 {
+		return false
+	}
+	var jumpMax int
+	n := len(nums)
+	for i := 0; i < n-1; i++ { //注意:这里边界值
+		jumpMax = max(jumpMax, i+nums[i])
+		if jumpMax <= i {
+			return false // 处理跳0不前进的场景
+		}
+	}
+	return jumpMax >= n-1
+}
+
+// lc45 跳跃游戏2  参考:https://www.cnblogs.com/labuladong/p/13945671.html
+//         0,1,2,3,4
+// nums = [2,3,1,1,4]
+//         2 4 4 4 x
+// 输出: 2 只需要判断哪一个选择最具有【潜力】即可
+func jump(nums []int) int {
+	n := len(nums)
+	end, positionMax := 0, 0
+	step := 0
+	for i := 0; i < n-1; i++ {
+		positionMax = max(positionMax, i+nums[i])
+		if i == end {
+			end = positionMax
+			step++
+		}
+	}
+	return step
 }

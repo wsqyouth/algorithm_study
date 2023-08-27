@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+/*
 func main() {
 	// mergeInplaceTest()
 	// fmt.Println(search([]int{1}, 3))
@@ -10,6 +11,7 @@ func main() {
 	// fmt.Println(search2([]int{1, 0, 1, 1, 1}, 0))
 	fmt.Println(removeDuplicates([]int{1, 1, 1, 2, 2, 3}))
 }
+*/
 
 //
 func mergeInplaceTest() {
