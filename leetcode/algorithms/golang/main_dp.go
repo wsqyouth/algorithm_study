@@ -6,7 +6,7 @@ import (
 )
 
 /*
-
+ */
 func main() {
 	//climbStairsTest()
 	// fmt.Println(coinChange([]int{3, 2, 5}, 11))
@@ -25,9 +25,11 @@ func main() {
 	// fmt.Println(rob213([]int{1, 2, 3, 1}))
 	// fmt.Println(maxArea([]int{1, 8, 6, 2, 5, 4, 8, 3, 7}))
 	// fmt.Println(canJump([]int{0}))
-	fmt.Println(jump([]int{2, 3, 1, 1, 4}))
+	// fmt.Println(jump([]int{2, 3, 1, 1, 4}))
+	grid := [][]int{[]int{1, 3, 1}, []int{1, 5, 1}, []int{4, 2, 1}}
+	fmt.Println(minPathSum(grid))
 }
-*/
+
 func climbStairsTest() {
 	fmt.Println(climbStairs(3))
 }
@@ -529,4 +531,76 @@ func jump(nums []int) int {
 		}
 	}
 	return step
+}
+
+// lc64 最小路径和 自顶向下+备忘录
+/*
+func minPathSum(grid [][]int) int {
+	if len(grid) == 0 {
+		return 0
+	}
+	m, n := len(grid), len(grid[0])
+	memo := make([][]int, m)
+	for i := range memo {
+		memo[i] = make([]int, n)
+		for j := range memo[i] {
+			memo[i][j] = -1
+		}
+	}
+	return dpPath(grid, m-1, n-1, memo)
+}
+func dpPath(grid [][]int, i int, j int, memo [][]int) int {
+	if i == 0 && j == 0 {
+		return grid[0][0]
+	}
+	if i < 0 || j < 0 {
+		return math.MaxInt32
+	}
+	if memo[i][j] != -1 {
+		return memo[i][j]
+	}
+	return min(dpPath(grid, i-1, j, memo), dpPath(grid, i, j-1, memo)) + grid[i][j]
+}
+*/
+// 自底向上+迭代法
+func minPathSum(grid [][]int) int {
+	if len(grid) == 0 {
+		return 0
+	}
+	m, n := len(grid), len(grid[0])
+	dp := make([][]int, m)
+	for i := 0; i < m; i++ {
+		dp[i] = make([]int, n)
+	}
+	dp[0][0] = grid[0][0]
+	for j := 1; j < n; j++ {
+		dp[0][j] = dp[0][j-1] + grid[0][j]
+	}
+	for i := 1; i < m; i++ {
+		dp[i][0] = dp[i-1][0] + grid[i][0]
+	}
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j]
+		}
+	}
+	return dp[m-1][n-1]
+}
+
+// lc62 不同路径
+func uniquePaths(m int, n int) int {
+	dp := make([][]int, m)
+	for i := range dp {
+		dp[i] = make([]int, n)
+		dp[i][0] = 1
+	}
+	for j := 0; j < n; j++ {
+		dp[0][j] = 1
+	}
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			dp[i][j] = dp[i-1][j] + dp[i][j-1]
+		}
+	}
+	return dp[m-1][n-1]
 }
