@@ -226,3 +226,26 @@ func removeDuplicates(nums []int) int {
 	}
 	return slow
 }
+
+// lc128 最长链路子序列
+func longestConsecutive(nums []int) int {
+	existMap := make(map[int]bool)
+	for _, num := range nums {
+		existMap[num] = true
+	}
+
+	res := 0
+	for num := range existMap { //注意:是遍历map
+		if existMap[num-1] { //num不是第一个首字符则忽略
+			continue
+		}
+		curNum := num
+		curLen := 1
+		for existMap[curNum+1] {
+			curNum++
+			curLen++
+		}
+		res = max(res, curLen)
+	}
+	return res
+}
