@@ -1,6 +1,6 @@
-C++ STL中最基本以及最常用的类或容器：
-string 操作代码：
-------
+// C++ STL中最基本以及最常用的类或容器：
+// string 操作代码：
+// ------
 #include <iostream>
 #include <string>
 
@@ -38,7 +38,7 @@ int main()
     return 0;
 }
 
--------
+// -------
 #include <iostream>
 #include <string>
 

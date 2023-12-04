@@ -1,12 +1,11 @@
-//判断弹出序列是否是入栈的弹出，是返回true,否则返回false
-//核心思想见注释。这里难点在于何时插入、何时弹出
+// 判断弹出序列是否是入栈的弹出，是返回true,否则返回false
+// 核心思想见注释。这里难点在于何时插入、何时弹出
 
 #include <stdio.h>
 #include <vector>
 #include <stack>
 #include <iostream>
 using namespace std;
-
 
 void traverse(vector<int> vec)
 {
@@ -16,25 +15,26 @@ void traverse(vector<int> vec)
 	cout << endl;
 }
 
-bool IsPopOrder(vector<int> pushV, vector<int> popV) {
-	if (pushV.empty()) return false;
-	
+bool IsPopOrder(vector<int> pushV, vector<int> popV)
+{
+	if (pushV.empty())
+		return false;
+
 	stack<int> stackData;
-	
-	int i = 0; //pushV计数
-	int j = 0;//popV计数
-	while(i < pushV.size())
+
+	int i = 0; // pushV计数
+	int j = 0; // popV计数
+	while (i < pushV.size())
 	{
-		//队列头元素和栈顶不相等，则弹入队列一直往栈里push
+		// 队列头元素和栈顶不相等，则弹入队列一直往栈里push
 		stackData.push(pushV[i++]);
-		//队列头元素和栈顶相等，则二者一起向外“弹出”
-		while (j<popV.size() && popV[j] == stackData.top())
+		// 队列头元素和栈顶相等，则二者一起向外“弹出”
+		while (j < popV.size() && popV[j] == stackData.top())
 		{
 			stackData.pop();
 			j++;
 		}
 	}
-	
 
 	return stackData.empty();
 }
@@ -53,9 +53,8 @@ int main()
 	popV.push_back(3);
 	popV.push_back(2);
 	popV.push_back(1);
-	
-	cout << IsPopOrder(pushV, popV) << endl;
 
+	cout << IsPopOrder(pushV, popV) << endl;
 
 	return 0;
 }

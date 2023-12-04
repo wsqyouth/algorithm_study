@@ -1,8 +1,7 @@
-不一定将操作放到pop里面，在push的时候也可以。
-1，将主栈的元素全部push到副栈中
-2，将新的元素push到副栈尾部
-3，将副栈的元素全部push到主栈
-
+// 不一定将操作放到pop里面，在push的时候也可以。
+// 1，将主栈的元素全部push到副栈中
+// 2，将新的元素push到副栈尾部
+// 3，将副栈的元素全部push到主栈
 
 #include <stdio.h>
 
@@ -10,7 +9,6 @@
 #include <stack>
 #include <iostream>
 using namespace std;
-
 
 void traverse(vector<int> vec)
 {
@@ -23,23 +21,25 @@ void traverse(vector<int> vec)
 class Solution
 {
 public:
-	void push(int node) {
-		//stack2为主(比如自顶向下为1,2,3)，stack1为temp(本轮循环结束时stack1自底向上为1,2,3)
+	void push(int node)
+	{
+		// stack2为主(比如自顶向下为1,2,3)，stack1为temp(本轮循环结束时stack1自底向上为1,2,3)
 		while (!stack2.empty())
 		{
-			stack1.push(stack2.top());//先把stack2的元素全部push到stack1中
+			stack1.push(stack2.top()); // 先把stack2的元素全部push到stack1中
 			stack2.pop();
 		}
-		stack1.push(node); //放到stack1的栈顶(比如自底向上为1,2,3,4)
+		stack1.push(node); // 放到stack1的栈顶(比如自底向上为1,2,3,4)
 		while (!stack1.empty())
 		{
-			stack2.push(stack1.top());//把stack1的元素全部push到stack2中
+			stack2.push(stack1.top()); // 把stack1的元素全部push到stack2中
 			stack1.pop();
 		}
-		//此时stack2中自顶向下元素为1,2,3,4。顶上为最先进入的值，最先出去
+		// 此时stack2中自顶向下元素为1,2,3,4。顶上为最先进入的值，最先出去
 	}
 
-	int pop() {
+	int pop()
+	{
 		if (!stack2.empty())
 		{
 			int popVal = stack2.top();
@@ -50,7 +50,6 @@ public:
 		{
 			return NULL;
 		}
-		
 	}
 	void traverseStack1()
 	{
@@ -70,15 +69,14 @@ public:
 		}
 		cout << endl;
 	}
+
 private:
 	stack<int> stack1;
 	stack<int> stack2;
 };
 
-
 int main()
 {
-	
 
 	Solution solve;
 	solve.push(1);
@@ -87,7 +85,5 @@ int main()
 	int res = solve.pop();
 	solve.traverseStack2();
 
-
 	return 0;
 }
-

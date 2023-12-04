@@ -1,124 +1,131 @@
-//本代码使用递归的方法依次实现了前序遍历、中序遍历、后序遍历、层次遍历
+// 本代码使用递归的方法依次实现了前序遍历、中序遍历、后序遍历、层次遍历
 //
-树的形状：   8
-        3         10
-    1     6  null     15
+//  树的形状：   8
+//          3         10
+//      1     6  null     15
 
-各种遍历结果：
-前序遍历：8 3 1 6 10 15 
-中序遍历：1 3 6 8 10 15 
-后序遍历：1 6 3 15 10 8 
-层次遍历：8 3 10 1 6 15 
-
-----
+// 各种遍历结果：
+// 前序遍历：8 3 1 6 10 15
+// 中序遍历：1 3 6 8 10 15
+// 后序遍历：1 6 3 15 10 8
+// 层次遍历：8 3 10 1 6 15
 
 #include <iostream>
 #include <vector>
 #include <queue>
 #include <algorithm>
 using namespace std;
-struct TreeNode {
-	int val;
-	struct TreeNode *left;
-	struct TreeNode *right;
-	TreeNode(int x) :
-			val(x), left(NULL), right(NULL) {
-	}
+struct TreeNode
+{
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL)
+    {
+    }
 };
 
-void preOrder(TreeNode* pHead){
-    //先序遍历，根 - 左 - 右
-   if(pHead == NULL) return;
-   cout<<pHead->val<<" ";
-   preOrder(pHead->left);
-   preOrder(pHead->right);
+void preOrder(TreeNode *pHead)
+{
+    // 先序遍历，根 - 左 - 右
+    if (pHead == NULL)
+        return;
+    cout << pHead->val << " ";
+    preOrder(pHead->left);
+    preOrder(pHead->right);
 }
 
-void inOrder(TreeNode* pHead){
-    //中序遍历，左 - 根 - 右
-    if(pHead == NULL) return;
+void inOrder(TreeNode *pHead)
+{
+    // 中序遍历，左 - 根 - 右
+    if (pHead == NULL)
+        return;
     inOrder(pHead->left);
-    cout<<pHead->val<<" ";//当前节点在其左右子节点之间访问， 左 - 根 - 右
+    cout << pHead->val << " "; // 当前节点在其左右子节点之间访问， 左 - 根 - 右
     inOrder(pHead->right);
 }
 
-void posOrder(TreeNode* pHead){
-    //后序遍历，左 - 右 - 根
-    if(pHead == NULL) return;
+void posOrder(TreeNode *pHead)
+{
+    // 后序遍历，左 - 右 - 根
+    if (pHead == NULL)
+        return;
     posOrder(pHead->left);
     posOrder(pHead->right);
-    cout<<pHead->val<<" ";//当前节点在其左右子节点之后访问，左-右-根
+    cout << pHead->val << " "; // 当前节点在其左右子节点之后访问，左-右-根
 }
-//从上往下打印出二叉树的每个节点，同层节点从左至右打印。
-void levelOrder(TreeNode *pHead) {
-   
-    if(pHead==NULL) return ;
-    
+// 从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+void levelOrder(TreeNode *pHead)
+{
+
+    if (pHead == NULL)
+        return;
+
     deque<TreeNode *> dequeTreeNode;
     dequeTreeNode.push_back(pHead);
-    while(!dequeTreeNode.empty())
+    while (!dequeTreeNode.empty())
     {
         TreeNode *temp = dequeTreeNode.front();
-        //push val to vector
-        cout<<temp->val<<" ";
-        if(temp->left != NULL)
+        // push val to vector
+        cout << temp->val << " ";
+        if (temp->left != NULL)
             dequeTreeNode.push_back(temp->left);
-        if(temp->right != NULL)
+        if (temp->right != NULL)
             dequeTreeNode.push_back(temp->right);
         dequeTreeNode.pop_front();
     }
-        
- }    
- 
-//利用层次遍历，每一层计数并处理一次
+}
+
+// 利用层次遍历，每一层计数并处理一次
 int TreeDepth(TreeNode *pRoot)
 {
-    if(!pRoot) return 0;
+    if (!pRoot)
+        return 0;
     queue<TreeNode *> qu;
     qu.push(pRoot);
     int depth = 0;
-    while(!qu.empty())
+    while (!qu.empty())
     {
         int size = qu.size();
         depth++;
-        for(int i=0;i<size;i++)
+        for (int i = 0; i < size; i++)
         {
             TreeNode *temp = qu.front();
-            cout<<"__"<<temp->val;
+            cout << "__" << temp->val;
             qu.pop();
-            
-            if(temp->left !=NULL)
+
+            if (temp->left != NULL)
                 qu.push(temp->left);
-            if(temp->right != NULL)
+            if (temp->right != NULL)
                 qu.push(temp->right);
         }
-        cout<<endl;
+        cout << endl;
     }
     return depth;
 }
 
-
-int main(){
+int main()
+{
     TreeNode a(8);
     TreeNode b(3);
     TreeNode c(10);
     TreeNode d(1);
     TreeNode e(6);
     TreeNode f(15);
-    
+
     a.left = &b;
     a.right = &c;
     b.left = &d;
     b.right = &e;
     c.right = &f;
-    
+
     preOrder(&a);
-    cout<<endl;
+    cout << endl;
     inOrder(&a);
-    cout<<endl;
+    cout << endl;
     posOrder(&a);
-    cout<<endl;
+    cout << endl;
     levelOrder(&a);
-    cout<<endl;
-	return 0;
+    cout << endl;
+    return 0;
 }

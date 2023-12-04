@@ -9,20 +9,20 @@
 */
 
 #include <iostream>
-//#include <cstring>
-//#include <cstdio>
+// #include <cstring>
+// #include <cstdio>
 #include <vector>
 #include <algorithm>
 using namespace std;
 
-bool Find(int target, vector<vector<int> > array) {
+bool Find(int target, vector<vector<int>> array)
+{
 
-	int rows = array.size();//行数
-	int columns = array[0].size();//列数
+	int rows = array.size();	   // 行数
+	int columns = array[0].size(); // 列数
 	int row = 0;
 	int column = columns - 1;
 
-	
 	while (row < rows && column >= 0)
 	{
 		if (array[row][column] == target)
@@ -43,7 +43,7 @@ bool Find(int target, vector<vector<int> > array) {
 }
 int main()
 {
-	vector<vector<int> > array(4, vector<int>(4)); //初始化二维数组行列
+	vector<vector<int>> array(4, vector<int>(4)); // 初始化二维数组行列
 	array[0][0] = 1;
 	array[0][1] = 2;
 	array[0][2] = 8;
@@ -58,18 +58,17 @@ int main()
 	array[2][2] = 10;
 	array[2][3] = 13;
 
-
 	array[3][0] = 6;
 	array[3][1] = 8;
 	array[3][2] = 11;
 	array[3][3] = 15;
 
-	for (int i = 0; i< array.size(); ++i)
+	for (int i = 0; i < array.size(); ++i)
 	{
 		for (vector<int>::iterator it = array[i].begin(); it != array[i].end(); it++)
 			cout << *it << " ";
 		cout << endl;
 	}
 
-	cout<<Find(8, array)<<endl;
+	cout << Find(8, array) << endl;
 }

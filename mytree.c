@@ -1,4 +1,4 @@
-//自周六以来的三天，将二叉树的基本重新做了一遍，目标是做最低公共祖先的题。
+// 自周六以来的三天，将二叉树的基本重新做了一遍，目标是做最低公共祖先的题。
 
 #include <iostream>
 #include <vector>
@@ -6,51 +6,56 @@
 #include <unordered_map>
 using namespace std;
 
-struct TreeNode {
+struct TreeNode
+{
 	int val;
 	TreeNode *left;
 	TreeNode *right;
-	TreeNode(int x) :val(x), left(NULL), right(NULL){}
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 void preorder_print(TreeNode *node, int layer)
 {
 	if (!node)
 		return;
-	//根据层数，打印相应数量的"--"
+	// 根据层数，打印相应数量的"--"
 	for (int i = 0; i < layer; ++i)
 		cout << "---";
-	
+
 	cout << "[" << node->val << "]\n";
-	preorder_print(node->left, layer + 1); //遍历左子树
-	preorder_print(node->right, layer + 1);//遍历右子树
+	preorder_print(node->left, layer + 1);	// 遍历左子树
+	preorder_print(node->right, layer + 1); // 遍历右子树
 }
 
 void inorder_print(TreeNode *node, int layer)
 {
 	if (!node)
 		return;
-	inorder_print(node->left, layer + 1); //遍历左子树
+	inorder_print(node->left, layer + 1); // 遍历左子树
 
-	//根据层数，打印相应数量的"--"
+	// 根据层数，打印相应数量的"--"
 	for (int i = 0; i < layer; ++i)
 		cout << "---";
 
 	cout << "[" << node->val << "]\n";
 
-	inorder_print(node->right, layer + 1);//遍历右子树
+	inorder_print(node->right, layer + 1); // 遍历右子树
 }
-void inorderTraversal(TreeNode *root,vector<int> &vec) {
-	if (!root) return;
+void inorderTraversal(TreeNode *root, vector<int> &vec)
+{
+	if (!root)
+		return;
 	if (root->left)
 		inorderTraversal(root->left, vec);
 	vec.push_back(root->val);
 	if (root->right)
 		inorderTraversal(root->right, vec);
 }
-vector<int> inorderTraversal(TreeNode *root) {
-	vector<int> res; 
-	if (!root) return res;
+vector<int> inorderTraversal(TreeNode *root)
+{
+	vector<int> res;
+	if (!root)
+		return res;
 	inorderTraversal(root, res);
 
 	return res;
@@ -60,15 +65,14 @@ void postorder_print(TreeNode *node, int layer)
 {
 	if (!node)
 		return;
-	postorder_print(node->left, layer + 1); //遍历左子树
-	postorder_print(node->right, layer + 1);//遍历右子树
+	postorder_print(node->left, layer + 1);	 // 遍历左子树
+	postorder_print(node->right, layer + 1); // 遍历右子树
 
-	//根据层数，打印相应数量的"--"
+	// 根据层数，打印相应数量的"--"
 	for (int i = 0; i < layer; ++i)
 		cout << "---";
 
 	cout << "[" << node->val << "]\n";
-
 }
 
 void level_print(TreeNode *node)
@@ -79,7 +83,7 @@ void level_print(TreeNode *node)
 	qu.push(node);
 	while (!qu.empty())
 	{
-		TreeNode * temp = qu.front();
+		TreeNode *temp = qu.front();
 		qu.pop();
 		cout << temp->val << " ";
 		if (temp->left != NULL)
@@ -90,10 +94,11 @@ void level_print(TreeNode *node)
 	cout << endl;
 }
 
-
-vector<vector<int> > levelOrder(TreeNode *root) {
-	vector<vector<int> > res;
-	if (root == NULL) return res;
+vector<vector<int>> levelOrder(TreeNode *root)
+{
+	vector<vector<int>> res;
+	if (root == NULL)
+		return res;
 
 	queue<TreeNode *> qu;
 	qu.push(root);
@@ -103,26 +108,27 @@ vector<vector<int> > levelOrder(TreeNode *root) {
 		vector<int> levelPath;
 		for (int i = 0; i < level; ++i)
 		{
-			TreeNode * temp = qu.front();
+			TreeNode *temp = qu.front();
 			qu.pop();
-			//cout << temp->val << " ";
+			// cout << temp->val << " ";
 			levelPath.push_back(temp->val);
 			if (temp->left != NULL)
 				qu.push(temp->left);
 			if (temp->right != NULL)
 				qu.push(temp->right);
 		}
-		//将每一层加入结果集res中
+		// 将每一层加入结果集res中
 		res.push_back(levelPath);
 	}
 	return res;
 }
 
+vector<vector<int>> zigzagLevelOrder(TreeNode *root)
+{
 
-vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
-
-	vector<vector<int> > res;
-	if (root == NULL) return res;
+	vector<vector<int>> res;
+	if (root == NULL)
+		return res;
 
 	queue<TreeNode *> qu;
 	qu.push(root);
@@ -132,9 +138,9 @@ vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
 		vector<int> levelPath;
 		for (int i = 0; i < level; ++i)
 		{
-			TreeNode * temp = qu.front();
+			TreeNode *temp = qu.front();
 			qu.pop();
-			//cout << temp->val << " ";
+			// cout << temp->val << " ";
 			levelPath.push_back(temp->val);
 			if (temp->left != NULL)
 				qu.push(temp->left);
@@ -145,63 +151,69 @@ vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
 		{
 			reverse(levelPath.begin(), levelPath.end());
 		}
-		//将每一层加入结果集res中
+		// 将每一层加入结果集res中
 		res.push_back(levelPath);
 	}
-
 
 	return res;
 }
 
-void pathSumCore(TreeNode *root, int sum, int &curSum, vector<int> &path_val, vector<vector<int> > &res) {
-	if (root == NULL) return;
+void pathSumCore(TreeNode *root, int sum, int &curSum, vector<int> &path_val, vector<vector<int>> &res)
+{
+	if (root == NULL)
+		return;
 
 	path_val.push_back(root->val);
 	curSum += root->val;
 	if (root->left == NULL && root->right == NULL && curSum == sum)
 	{
-		#if 0
+#if 0
 		for (vector<int>::iterator it = path_val.begin(); it != path_val.end(); ++it)
 			cout << *it << " ";
 		cout << endl;
-		#endif
-		//将满足条件的路径push到结果集合res中
+#endif
+		// 将满足条件的路径push到结果集合res中
 		res.push_back(path_val);
 	}
 
-	pathSumCore(root->left, sum, curSum, path_val,res);
+	pathSumCore(root->left, sum, curSum, path_val, res);
 	pathSumCore(root->right, sum, curSum, path_val, res);
 
-	//当前节点退回至父节点时，将该数据去除
+	// 当前节点退回至父节点时，将该数据去除
 	curSum -= root->val;
-	path_val.pop_back(); 
+	path_val.pop_back();
 }
 
-
-vector<vector<int> > pathSum(TreeNode *root, int sum) {
-	vector<vector<int> > res;
-	if (root == NULL) return res;
+vector<vector<int>> pathSum(TreeNode *root, int sum)
+{
+	vector<vector<int>> res;
+	if (root == NULL)
+		return res;
 
 	int curSum = 0;
 	vector<int> path_val;
-	pathSumCore(root, sum, curSum,path_val,res);
+	pathSumCore(root, sum, curSum, path_val, res);
 
 	return res;
 }
-bool isSameTree(TreeNode *p, TreeNode *q) {
-	if (p == NULL && q == NULL) return true;
+bool isSameTree(TreeNode *p, TreeNode *q)
+{
+	if (p == NULL && q == NULL)
+		return true;
 
-	if (p == NULL || q == NULL) return false;
-	if (p->val != q->val) return false;
+	if (p == NULL || q == NULL)
+		return false;
+	if (p->val != q->val)
+		return false;
 
-	//二者根值相等时
+	// 二者根值相等时
 	return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 }
 
-
 int TreeDepth(TreeNode *root)
 {
-	if (root == NULL) return 0;
+	if (root == NULL)
+		return 0;
 
 	int left = TreeDepth(root->left);
 	int right = TreeDepth(root->right);
@@ -209,21 +221,19 @@ int TreeDepth(TreeNode *root)
 	return (left > right) ? (left + 1) : (right + 1);
 }
 
-bool isBalanced(TreeNode *root) {
-	if (root == NULL) return true;
+bool isBalanced(TreeNode *root)
+{
+	if (root == NULL)
+		return true;
 
 	int nLeft = TreeDepth(root->left);
 	int nRight = TreeDepth(root->right);
 	int diff = nLeft - nRight;
-	if (diff < -1 || diff>1)
+	if (diff < -1 || diff > 1)
 		return false;
 
-
 	return isBalanced(root->left) && isBalanced(root->right);
-
 }
-
-
 
 #if 0
 bool isValidBST(TreeNode *root) {
@@ -250,10 +260,11 @@ bool isValidBST(TreeNode *root) {
 }
 #endif
 
-
-void reConstructBinaryTree1(vector<int> pre, vector<int> vin) {
-	if (pre.empty() || vin.empty()) return;
-	int size = pre.size(); //等于vin.size()
+void reConstructBinaryTree1(vector<int> pre, vector<int> vin)
+{
+	if (pre.empty() || vin.empty())
+		return;
+	int size = pre.size(); // 等于vin.size()
 	int index = 0;
 	for (; index < size; ++index)
 	{
@@ -268,8 +279,8 @@ void reConstructBinaryTree1(vector<int> pre, vector<int> vin) {
 		cout << vin[i] << "inorder left" << endl;
 		vin_left.push_back(vin[i]);
 	}
-	
-	for (int j = index+1; j < size; ++j)
+
+	for (int j = index + 1; j < size; ++j)
 	{
 		cout << pre[j] << "pre right" << endl;
 		pre_right.push_back(pre[j]);
@@ -277,7 +288,7 @@ void reConstructBinaryTree1(vector<int> pre, vector<int> vin) {
 		vin_right.push_back(vin[j]);
 	}
 	reConstructBinaryTree1(pre_left, vin_left);
-	cout << "---------------"<<endl;
+	cout << "---------------" << endl;
 	reConstructBinaryTree1(pre_right, vin_right);
 }
 
@@ -313,12 +324,14 @@ TreeNode* reConstructBinaryTree(vector<int> pre, vector<int> vin) {
 }
 #endif
 
-TreeNode* reConstructBinaryTree(vector<int> &pre, vector<int> &vin, int startPre, int endPre, int startInorder, int endInorder) {
-	
+TreeNode *reConstructBinaryTree(vector<int> &pre, vector<int> &vin, int startPre, int endPre, int startInorder, int endInorder)
+{
+
 	int rootVal = pre[startPre];
-	//构造根节点
+	// 构造根节点
 	TreeNode *root = new TreeNode(rootVal);
-	if (endPre == startPre || endInorder == startInorder) return root;
+	if (endPre == startPre || endInorder == startInorder)
+		return root;
 
 	int index = startInorder;
 	for (; index <= endInorder; ++index)
@@ -326,34 +339,38 @@ TreeNode* reConstructBinaryTree(vector<int> &pre, vector<int> &vin, int startPre
 		if (vin[index] == rootVal)
 			break;
 	}
-	
-	//左子树元素个数,右子树元素个数均根据中序遍历来找
+
+	// 左子树元素个数,右子树元素个数均根据中序遍历来找
 	int leftLength = index - startInorder;
 	int rightLength = endInorder - index;
 
-	if (leftLength>0)
-		root->left = reConstructBinaryTree(pre, vin, startPre + 1, startPre + leftLength, startInorder, index - 1);  //startPre + leftLength
-	if (rightLength>0)
+	if (leftLength > 0)
+		root->left = reConstructBinaryTree(pre, vin, startPre + 1, startPre + leftLength, startInorder, index - 1); // startPre + leftLength
+	if (rightLength > 0)
 		root->right = reConstructBinaryTree(pre, vin, startPre + leftLength + 1, endPre, index + 1, endInorder);
 
 	return root;
 }
 
-TreeNode* reConstructBinaryTree(vector<int> pre, vector<int> vin) {
-	if (pre.empty() || vin.empty() || pre.size() != vin.size() ) return NULL;
-	int size = pre.size(); //等于vin.size()
+TreeNode *reConstructBinaryTree(vector<int> pre, vector<int> vin)
+{
+	if (pre.empty() || vin.empty() || pre.size() != vin.size())
+		return NULL;
+	int size = pre.size(); // 等于vin.size()
 
 	return reConstructBinaryTree(pre, vin, 0, size - 1, 0, size - 1);
 }
 
-TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder,int startInorder, int endInorder,int startPost,int endPost) {
-	//从后续遍历中查找根节点
+TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder, int startInorder, int endInorder, int startPost, int endPost)
+{
+	// 从后续遍历中查找根节点
 	int rootVal = postorder[endPost];
-	//构造根节点
+	// 构造根节点
 	TreeNode *root = new TreeNode(rootVal);
-	if (endPost == startPost || endInorder == startInorder) return root;
+	if (endPost == startPost || endInorder == startInorder)
+		return root;
 
-	//在中序遍历序列查找index
+	// 在中序遍历序列查找index
 	int index = endInorder;
 	for (; index >= startInorder; --index)
 	{
@@ -361,28 +378,30 @@ TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder,int startInorde
 			break;
 	}
 
-	//左子树元素个数,右子树元素个数均根据中序遍历来找
+	// 左子树元素个数,右子树元素个数均根据中序遍历来找
 	int leftLength = index - startInorder;
 	int rightLength = endInorder - index;
-	
+
 	// 在根节点所在序列需要按照相对坐标来划分
-	//左子树  后序[startPost，endPost-rightLength-1]
-	if (leftLength>0)
-		root->left = buildTree(inorder, postorder, startInorder, index - 1, startPost, endPost-rightLength-1);
-	//右子树 后序[endPost-rightLength, endPost-1]
-	if (rightLength>0)
-		root->right = buildTree(inorder, postorder, index + 1, endInorder,endPost-rightLength, endPost-1);
+	// 左子树  后序[startPost，endPost-rightLength-1]
+	if (leftLength > 0)
+		root->left = buildTree(inorder, postorder, startInorder, index - 1, startPost, endPost - rightLength - 1);
+	// 右子树 后序[endPost-rightLength, endPost-1]
+	if (rightLength > 0)
+		root->right = buildTree(inorder, postorder, index + 1, endInorder, endPost - rightLength, endPost - 1);
 
 	return root;
 }
-TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder) {
-	if (inorder.empty() || postorder.empty() || inorder.size() != postorder.size()) return NULL;
-	int size = inorder.size(); //等于vin.size()
+TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder)
+{
+	if (inorder.empty() || postorder.empty() || inorder.size() != postorder.size())
+		return NULL;
+	int size = inorder.size(); // 等于vin.size()
 
 	return buildTree(inorder, postorder, 0, size - 1, 0, size - 1);
 }
 /*
-      1
+	  1
    2     5
 3    4      6
 */
@@ -422,8 +441,8 @@ int main()
 		cout << endl;
 	}
 #endif
-	//cout << isValidBST(&a) << endl;
-	//前序遍历{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}
+	// cout << isValidBST(&a) << endl;
+	// 前序遍历{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}
 	vector<int> pre;
 	vector<int> vin;
 	vector<int> post;
@@ -444,7 +463,7 @@ int main()
 	vin.push_back(3);
 	vin.push_back(8);
 	vin.push_back(6);
-	
+
 	post.push_back(7);
 	post.push_back(4);
 	post.push_back(2);
@@ -456,11 +475,11 @@ int main()
 
 	TreeNode *root = buildTree(vin, post);
 
-	//前序遍历
+	// 前序遍历
 	int level = 0;
 	preorder_print(root, level);
 	cout << endl;
-	
+
 	inorder_print(root, level);
 	cout << endl;
 
@@ -469,11 +488,11 @@ int main()
 		cout << *it << "__";
 	cout << endl;
 
-	//后续遍历
+	// 后续遍历
 	postorder_print(root, level);
 	cout << endl;
 
-	vector<vector<int> > res = levelOrder(root);
+	vector<vector<int>> res = levelOrder(root);
 	for (vector<vector<int>>::iterator ite = res.begin(); ite != res.end(); ite++)
 	{
 		vector<int> temp_vect = *ite;

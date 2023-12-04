@@ -1,29 +1,32 @@
-这个是之前自己在做链表基本操作时，写下的模板。结合牛客上推荐的数据结构，完成自己的功能。
-主要包括：
-链表合并、链表翻转，尾插法构建链表（创建时采用了二级指针的写法），打印链表功能。
+// 这个是之前自己在做链表基本操作时，写下的模板。结合牛客上推荐的数据结构，完成自己的功能。
+// 主要包括：
+// 链表合并、链表翻转，尾插法构建链表（创建时采用了二级指针的写法），打印链表功能。
 
 #include <stdio.h>
 #include <iostream>
 using namespace std;
 
-struct ListNode {
+struct ListNode
+{
 	int val;
 	struct ListNode *next;
-	ListNode(int x) :
-		val(x), next(NULL) {
+	ListNode(int x) : val(x), next(NULL)
+	{
 	}
 };
-class Solution {
+class Solution
+{
 public:
-	
-	ListNode* Merge(ListNode* pHead1, ListNode* pHead2)
+	ListNode *Merge(ListNode *pHead1, ListNode *pHead2)
 	{
-		if (pHead1 == NULL) return pHead2;
-		if (pHead2 == NULL) return pHead1;
+		if (pHead1 == NULL)
+			return pHead2;
+		if (pHead2 == NULL)
+			return pHead1;
 
 		ListNode mergeNode(0);
-		//要记住保存头结点，最后返回
-		ListNode * pNode = &mergeNode;
+		// 要记住保存头结点，最后返回
+		ListNode *pNode = &mergeNode;
 
 		while (pHead1 && pHead2)
 		{
@@ -37,34 +40,40 @@ public:
 				pNode->next = pHead2;
 				pHead2 = pHead2->next;
 			}
-			//更新
+			// 更新
 			pNode = pNode->next;
 		}
-		if (pHead1) pNode->next = pHead1;
-		if (pHead2) pNode->next = pHead2;
+		if (pHead1)
+			pNode->next = pHead1;
+		if (pHead2)
+			pNode->next = pHead2;
 
 		return mergeNode.next;
 	}
 
-	ListNode* ReverseList(ListNode* pHead) {
-		if (pHead == NULL) return NULL;
+	ListNode *ReverseList(ListNode *pHead)
+	{
+		if (pHead == NULL)
+			return NULL;
 
 		ListNode *pReverse = NULL;
 		ListNode *pNext = NULL;
-		//不是pHead->next
+		// 不是pHead->next
 		while (pHead)
 		{
-			pNext = pHead->next; //保存next，防止原链表断开
-			pHead->next = pReverse; //修改pHead指向新链表
-			pReverse = pHead; //更新新链表头指针，为下次做准备
-			pHead = pNext; //旧链表移动至下一个节点
+			pNext = pHead->next;	// 保存next，防止原链表断开
+			pHead->next = pReverse; // 修改pHead指向新链表
+			pReverse = pHead;		// 更新新链表头指针，为下次做准备
+			pHead = pNext;			// 旧链表移动至下一个节点
 		}
 
 		return pReverse;
 	}
 
-	void printNode(ListNode *pListHead) {
-		if (pListHead == NULL) return;
+	void printNode(ListNode *pListHead)
+	{
+		if (pListHead == NULL)
+			return;
 		while (pListHead)
 		{
 			printf("%d ", pListHead->val);
@@ -82,18 +91,15 @@ public:
 		}
 		else
 		{
-			//pNode->next = (*pListHead)->next;
+			// pNode->next = (*pListHead)->next;
 			ListNode *pNode = (*pListHead);
-			while (pNode->next != NULL) pNode = pNode->next;
+			while (pNode->next != NULL)
+				pNode = pNode->next;
 
 			pNode->next = pNodeNew;
-
 		}
 	}
 };
-
-
-
 
 int main()
 {
@@ -112,23 +118,23 @@ int main()
 	{
 		printf("%d ", head->val);
 		head = head->next;
-	} 
-		
+	}
+
 	/*
 	ListNode n1(1);
 	ListNode n2(1);
-	ListNode n3(1);		
-	ListNode n4(3);	
+	ListNode n3(1);
+	ListNode n4(3);
 	ListNode n5(3);
 	ListNode n6(6);
-	
+
 	n1.next = &n2;
 	n2.next = &n3;
 	n3.next = &n4;
 	n4.next = &n5;
-        n5.next = &n6;
-	
+	n5.next = &n6;
+
 	solve.printNode(&n1);
-        */
+	*/
 	return 0;
 }
