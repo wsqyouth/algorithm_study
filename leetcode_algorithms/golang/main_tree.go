@@ -16,6 +16,7 @@ func main() {
 	//findKthLargestTest()
 	//topKFrequentTest()
 	//fmt.Println(numTrees(3))
+	sideViewTest()
 }
 
 // lc 144 二叉树的前序遍历
@@ -120,8 +121,64 @@ func levelOrderBottom(root *TreeNode) [][]int {
 	return res
 }
 
+func sideViewTest() {
+	preOrder := []int{3, 9, 20, 15, 7}   //前序:根左右
+	inOrder := []int{9, 3, 15, 20, 7}    //中序:左根右
+	root := buildTree(preOrder, inOrder) //前序中序构建树
+	structures.PrintTree(root)
+
+	fmt.Println(rightSideView(root))
+	fmt.Println(leftView(root))
+}
+
 // lc199 二叉树的右视图 判断是否遍历到单层的最后面的元素，如果是，就放进result数组中，随后返回result就可以了
-//func rightSideView(root *TreeNode) []int {}
+func rightSideView(root *TreeNode) []int {
+	if root == nil {
+		return nil
+	}
+	var result []int
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		size := len(queue)
+		result = append(result, queue[size-1].Val) // 添加每一层的最后一个元素
+		for i := 0; i < size; i++ {
+			node := queue[0]
+			queue = queue[1:]
+			if node.Left != nil {
+				queue = append(queue, node.Left)
+			}
+			if node.Right != nil {
+				queue = append(queue, node.Right)
+			}
+		}
+	}
+	return result
+}
+
+// 输出二叉树的左视图
+func leftView(root *TreeNode) []int {
+	if root == nil {
+		return nil
+	}
+	var result []int
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		size := len(queue)
+		result = append(result, queue[0].Val) // 添加每一层的第一个元素
+		for i := 0; i < size; i++ {
+			node := queue[0]
+			queue = queue[1:]
+			if node.Left != nil {
+				queue = append(queue, node.Left)
+			}
+			if node.Right != nil {
+				queue = append(queue, node.Right)
+			}
+		}
+	}
+	return result
+}
+
 // lc637 二叉树每层求平均值
 func averageOfLevels(root *TreeNode) []float64 {
 	if root == nil {
