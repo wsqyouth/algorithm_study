@@ -115,7 +115,7 @@ func levelOrderBottom(root *TreeNode) [][]int {
 	}
 	// 也可以在每一个切片插入时从头部插入，go没有这样的特性只能手动数组翻转下
 	length := len(res)
-	for i := 0; i < (length)/2; i++ {
+	for i := 0; i < length/2; i++ {
 		res[i], res[length-i-1] = res[length-i-1], res[i]
 	}
 	return res
@@ -139,9 +139,9 @@ func rightSideView(root *TreeNode) []int {
 	var result []int
 	queue := []*TreeNode{root}
 	for len(queue) > 0 {
-		size := len(queue)
-		result = append(result, queue[size-1].Val) // 添加每一层的最后一个元素
-		for i := 0; i < size; i++ {
+		length := len(queue)
+		result = append(result, queue[length-1].Val) // 添加每一层的最后一个元素
+		for i := 0; i < length; i++ {
 			node := queue[0]
 			queue = queue[1:]
 			if node.Left != nil {
@@ -207,6 +207,39 @@ func averageOfLevels(root *TreeNode) []float64 {
 		res = append(res, tempAverageVal)
 	}
 	return res
+}
+
+// lc103. 二叉树的锯齿形层次遍历
+func zigzagLevelOrder(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	var ans [][]int
+	queue := []*TreeNode{root}
+	for level := 0; len(queue) > 0; level++ {
+		vals := []int{}
+		curLen := len(queue) // 注意用临时变量存储下
+		for i := 0; i < curLen; i++ {
+			node := queue[0]
+			queue = queue[1:]
+			vals = append(vals, node.Val)
+			if node.Left != nil {
+				queue = append(queue, node.Left)
+			}
+			if node.Right != nil {
+				queue = append(queue, node.Right)
+			}
+		}
+		// 奇数层反转下
+		if level%2 == 1 {
+			n := len(vals)
+			for i := 0; i < n/2; i++ {
+				vals[i], vals[n-1-i] = vals[n-1-i], vals[i]
+			}
+		}
+		ans = append(ans, vals)
+	}
+	return ans
 }
 
 // lc104  二叉树的最大深度

@@ -89,3 +89,94 @@ func main() {
 为了减少双向链表左右节点的「判空」操作，我们预先建立两个「哨兵」节点 head 和 tail。
 
 */
+
+/*
+2023年12月16日犯得错误：
+ 1. 删除节点时，要避免node.next被断掉
+ 2. 当缓存已满并且需要删除队尾节点时，你应该先从 map 中删除节点，然后再从链表中删除。
+    因为在删除链表节点后，你无法再访问该节点的 key，这会导致 map 中的节点无法被删除。所以，你需要先删除 map 中的节点，然后再删除链表中的节点。
+*/
+/*
+package main
+
+import "fmt"
+
+type LinkNode struct {
+	key, val   int
+	prev, next *LinkNode
+}
+
+type Solution struct {
+	capacity   int
+	head, tail *LinkNode
+	m          map[int]*LinkNode
+}
+
+func NewSolution(capacity int) *Solution {
+	head := &LinkNode{-1, -1, nil, nil}
+	tail := &LinkNode{-1, -1, nil, nil}
+	head.next = tail
+	tail.prev = head
+	return &Solution{capacity, head, tail, make(map[int]*LinkNode)}
+}
+
+// 删除节点时先考虑前后,再考虑自身 (先虑前人再虑己,奉献精神)
+func (this *Solution) removeNode(node *LinkNode) {
+	node.prev.next = node.next // 小心
+	node.next.prev = node.prev
+}
+
+// 增加节点时考虑自身,再考虑前后 (先攀关心,然后利用已打赏的关系链接前后)
+func (this *Solution) addNodeOnHead(node *LinkNode) {
+	node.next = this.head.next
+	node.prev = this.head
+	this.head.next = node
+	node.next.prev = node // 复用了第一步
+}
+
+func (this *Solution) moveNodeToHead(node *LinkNode) {
+	this.removeNode(node)
+	this.addNodeOnHead(node)
+}
+
+func (this *Solution) get(key int) int {
+	node, exist := this.m[key]
+	if !exist {
+		return -1
+	}
+	// 删除node,移至队首
+	this.moveNodeToHead(node)
+	return node.val
+}
+
+
+func (this *Solution) set(key, val int) {
+	node, exist := this.m[key]
+	if exist {
+		// 更新node, 移至对首
+		node.val = val
+		this.moveNodeToHead(node)
+	} else {
+		if len(this.m) >= this.capacity {
+			// 删除队尾,注意是队尾的前一个节点
+			delete(this.m, this.tail.prev.key) // 先从map中删除
+			this.removeNode(this.tail.prev)    // 再从链表中删除
+		}
+		node = &LinkNode{key, val, nil, nil}
+		this.m[key] = node
+		// 添加到队首
+		this.addNodeOnHead(node)
+	}
+}
+
+func main() {
+	soulution := NewSolution(2)
+	soulution.set(1, 1)
+	soulution.set(2, 2)
+
+	fmt.Println("hello", soulution.get(1))
+	soulution.set(3, 3)
+	fmt.Println(soulution.m)
+	fmt.Println("hello", soulution.get(2))
+}
+*/
