@@ -63,6 +63,10 @@ func postorderTraversal(root *structures.TreeNode) []int {
 	return res
 }
 
+/*
+TODO:
+二叉树的非递归遍历该怎么实现
+*/
 // lc 102  二叉树的层序遍历
 // 方法2为DFS,后续再补充
 // https://leetcode.cn/leetbook/read/data-structure-binary-tree/xefh1i/
@@ -256,7 +260,7 @@ func maxDepth(root *structures.TreeNode) int {
 		return 0
 	}
 
-	// 自底向上,bottomToTop,计算每个节点以下的情况，后续遍历
+	// 自底向上,bottomToTop,计算每个节点以下的情况,后续遍历
 	leftDepth := maxDepth(root.Left)
 	rightDepth := maxDepth(root.Right)
 	if leftDepth >= rightDepth {
