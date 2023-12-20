@@ -42,3 +42,9 @@ func leftOf(s byte) byte {
 	}
 	return signMap[s]
 }
+
+// 12.19 在lc上写一个使用switch case更简洁的版本.
+/*
+栈的应用:
+树的非递归遍历主要是利用栈实现的
+*/

@@ -66,6 +66,8 @@ func postorderTraversal(root *structures.TreeNode) []int {
 /*
 TODO:
 二叉树的非递归遍历该怎么实现
+前序: 比较简单,通过栈实现,根入栈;右节点入栈;左节点入栈
+中序: 需要一直访问左子树,直到尽头。然后访问右子树,然后访问根
 */
 // lc 102  二叉树的层序遍历
 // 方法2为DFS,后续再补充
