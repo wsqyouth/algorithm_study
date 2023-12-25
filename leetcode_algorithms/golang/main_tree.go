@@ -33,6 +33,28 @@ func preorderTraversal(root *structures.TreeNode) []int {
 	return res
 }
 
+func preorderTraversalNotRecurse(root *TreeNode) []int {
+	res := []int{}
+	stack := make([]*TreeNode, 0)
+	stack = append(stack, root)
+
+	for len(stack) > 0 {
+		node := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		if node != nil {
+			res = append(res, node.Val)
+			// 注意栈先进后出，因此先放入右节点，再放左节点
+			if node.Right != nil {
+				stack = append(stack, node.Right)
+			}
+			if node.Left != nil {
+				stack = append(stack, node.Left)
+			}
+		}
+	}
+	return res
+}
+
 // lc 94 二叉树的中序遍历
 func inorderTraversal(root *structures.TreeNode) []int {
 	if root == nil {
@@ -45,6 +67,28 @@ func inorderTraversal(root *structures.TreeNode) []int {
 	res = append(res, inorderTraversal(root.Left)...)
 	res = append(res, root.Val)
 	res = append(res, inorderTraversal(root.Right)...)
+	return res
+}
+
+func inorderTraversalNotRecurse(root *TreeNode) []int {
+	res := []int{}
+	stack := []*TreeNode{}
+
+	for root != nil {
+		stack = append(stack, root)
+		root = root.Left
+	}
+
+	for len(stack) > 0 {
+		node := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		res = append(res, node.Val) // 已经访问了当前节点（即栈顶元素）及其左子树
+		node = node.Right
+		for node != nil {
+			stack = append(stack, node)
+			node = node.Left // 右子树也有自己左子树，因此我们不能立即访问右子树，而是要找到右子树下最左边的一个节点。
+		}
+	}
 	return res
 }
 
