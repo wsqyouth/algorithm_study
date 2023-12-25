@@ -119,3 +119,51 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	}
 	return dummyNode.Next
 }
+
+// lc148. 排序链表
+// 这道题还有迭代归并法,后续看,非常值得学习 https://leetcode.cn/problems/sort-list/solutions/2358097/ru-he-zheng-ming-pai-xu-lian-biao-shi-ku-tf9m/
+func sortList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	// 寻找中间节点
+	fast, slow := head, head
+	var prev *ListNode
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		prev = slow
+		slow = slow.Next
+	}
+	// 拆分两个链表
+	prev.Next = nil
+
+	// 继续拆分排序
+	left := sortList(head)
+	right := sortList(slow)
+
+	// 合并有序链表
+	return merge(left, right)
+}
+
+func merge(left *ListNode, right *ListNode) *ListNode {
+	dummy := &ListNode{}
+	cur := dummy
+	for left != nil && right != nil {
+		if left.Val < right.Val {
+			cur.Next = left
+			left = left.Next
+		} else {
+			cur.Next = right
+			right = right.Next
+		}
+		cur = cur.Next
+	}
+	if left != nil {
+		cur.Next = left
+	}
+	if right != nil {
+		cur.Next = right
+	}
+	return dummy.Next
+}
