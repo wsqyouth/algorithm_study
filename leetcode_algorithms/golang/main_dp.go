@@ -26,8 +26,9 @@ func main() {
 	// fmt.Println(maxArea([]int{1, 8, 6, 2, 5, 4, 8, 3, 7}))
 	// fmt.Println(canJump([]int{0}))
 	// fmt.Println(jump([]int{2, 3, 1, 1, 4}))
-	grid := [][]int{[]int{1, 3, 1}, []int{1, 5, 1}, []int{4, 2, 1}}
-	fmt.Println(minPathSum(grid))
+	// grid := [][]int{[]int{1, 3, 1}, []int{1, 5, 1}, []int{4, 2, 1}}
+	// fmt.Println(minPathSum(grid))
+	fmt.Println(longestValidParentheses(")()())"))
 }
 
 func climbStairsTest() {
@@ -604,3 +605,38 @@ func uniquePaths(m int, n int) int {
 	}
 	return dp[m-1][n-1]
 }
+
+func longestValidParentheses(s string) int {
+	dp := make([]int, len(s)) // 以 s[i] 结尾的最长合法括号子串长度
+	var ans int
+
+	for i := 1; i < len(s); i++ {
+		if s[i] == ')' {
+			if s[i-1] == '(' { // 形如"()"
+				if i >= 2 {
+					dp[i] = dp[i-2] + 2
+				} else {
+					dp[i] = 2
+				}
+			} else if i-dp[i-1] > 0 && s[i-dp[i-1]-1] == '(' {
+				if i-dp[i-1] >= 2 { // 形如"((...))"
+					dp[i] = dp[i-1] + dp[i-dp[i-1]-2] + 2
+				} else {
+					dp[i] = dp[i-1] + 2
+				}
+			}
+			ans = max(ans, dp[i])
+		}
+	}
+	return ans
+}
+
+/*
+如果当前字符是右括号 ')'，我们需要判断前一个字符是不是左括号 '('。如果是，说明形成了一个有效的括号对，可以直接将 dp[i] 设置为 dp[i-2] + 2，其中 dp[i-2] 表示前一个有效括号子串的长度。
+
+如果前一个字符也是右括号 ')'，我们需要判断前一个有效括号子串的前一个字符是否是左括号 '('。
+如果是，说明形成了一个更长的有效括号子串，可以将 dp[i] 设置为 dp[i-1] + dp[i-dp[i-1]-2] + 2，其中
+ dp[i-1] 表示前一个有效括号子串的长度，dp[i-dp[i-1]-2] 表示前一个有效括号子串之前的有效括号子串的长度。
+
+只需要遍历一次字符串 s，时间复杂度为 O(n)，其中 n 是字符串的长度。空间复杂度为 O(n)，用于存储 dp 数组。
+*/
