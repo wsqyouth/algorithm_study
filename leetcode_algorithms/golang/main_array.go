@@ -227,7 +227,7 @@ func removeDuplicates(nums []int) int {
 	return slow
 }
 
-// lc128 最长链路子序列
+// lc128 最长连续子序列
 func longestConsecutive(nums []int) int {
 	existMap := make(map[int]bool)
 	for _, num := range nums {
