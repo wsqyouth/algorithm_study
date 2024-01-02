@@ -43,7 +43,31 @@ func leftOf(s byte) byte {
 	return signMap[s]
 }
 
-// 12.19 在lc上写一个使用switch case更简洁的版本.
+// lc 20  12.19 在lc上写一个使用switch case更简洁的版本.
+func isValidNew(s string) bool {
+	stack := []rune{}
+	for _, ch := range s {
+		switch ch {
+		case '(', '{', '[':
+			stack = append(stack, ch)
+		case ')', '}', ']':
+			if len(stack) == 0 {
+				return false // 栈为空，无法匹配，返回false
+			}
+			top := stack[len(stack)-1]
+			if (ch == ')' && top == '(') || (ch == '}' && top == '{') || (ch == ']' && top == '[') {
+				stack = stack[:len(stack)-1]
+			} else {
+				return false
+			}
+		}
+	}
+	if len(stack) > 0 {
+		return false
+	}
+	return true
+}
+
 /*
 栈的应用:
 树的非递归遍历主要是利用栈实现的
