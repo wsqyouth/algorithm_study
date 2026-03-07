@@ -10,6 +10,7 @@ import (
 )
 
 type TreeNode = structures.TreeNode
+type Node = structures.Node
 
 func main() {
 	//sortArrayTest()
@@ -620,7 +621,7 @@ func sortQuickArrayHelper(nums []int, low int, high int) {
 	sortQuickArrayHelper(nums, p+1, high)
 }
 
-//ref: https://mp.weixin.qq.com/s/8ZTMhvHJK_He48PpSt_AmQ
+// ref: https://mp.weixin.qq.com/s/8ZTMhvHJK_He48PpSt_AmQ
 func partitionArray(nums []int, low int, high int) int {
 	// low对应基准。 i,j为开区间，保证覆盖到[low,high]
 	pivot := nums[low]
@@ -995,7 +996,7 @@ func lowestCommonAncestorNew(root, p, q *TreeNode) *TreeNode {
 }
 
 // lc222 完全二叉树节点的个数
-//ref :https://labuladong.github.io/algo/2/21/48/
+// ref :https://labuladong.github.io/algo/2/21/48/
 func countNodes(root *TreeNode) int {
 	left, right := root, root
 	// 分别计算左右两颗子树的高度
@@ -1165,4 +1166,139 @@ func max(a, b int) int {
 	} else {
 		return b
 	}
+}
+
+/*
+func preorder(root *Node) []int {
+	return dfsCore(root)
+}
+
+// lc589 多叉树的前序遍历
+func dfsCore(root *Node) []int {
+	if root == nil {
+		return []int{}
+	}
+
+	// 【前序位置】
+	// 刚进入节点 root 时执行
+	result := []int{root.Val}
+	for _, node := range root.Children {
+		result = append(result, dfsCore(node)...)
+	}
+
+	// 【后序位置】
+	// 即将离开节点 root 时执行
+	return result
+}
+
+
+type Node struct {
+	Val      int
+	Children []*Node
+}
+
+// N叉树前序遍历（非递归版本）
+func preorder(root *Node) []int {
+	res := []int{}
+	if root == nil {
+		return res
+	}
+	stack := []*Node{root}
+
+	for len(stack) > 0 {
+		// 弹出栈顶节点（核心：弹栈即处理）
+		node := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+
+		// 前序：弹出时直接输出（和二叉树完全一致）
+		res = append(res, node.Val)
+
+		// N叉树替代二叉树的“先右后左”：子节点逆序入栈（栈后进先出，保证从左到右遍历）
+		for i := len(node.Children) - 1; i >= 0; i-- {
+			stack = append(stack, node.Children[i])
+		}
+	}
+	return res
+}
+
+
+func postorder(root *Node) []int {
+	return dfsCore(root)
+}
+
+// lc590 多叉树的后序遍历
+func dfsCore(root *Node) []int {
+	if root == nil {
+		return []int{}
+	}
+
+	result := []int{}
+	for _, node := range root.Children {
+		result = append(result, dfsCore(node)...)
+	}
+
+	// 【后序位置】
+	result = append(result, root.Val)
+	return result
+}
+
+
+// N叉树后序遍历（极简版：前序变形）
+func postorder(root *Node) []int {
+	res := []int{}
+	if root == nil {
+		return res
+	}
+	stack := []*Node{root}
+
+	for len(stack) > 0 {
+		node := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+
+		// 步骤1：先按“根→右→左”收集（前序是“根→左→右”，逆序入栈后变成根→右→左）
+		res = append(res, node.Val)
+
+		// 子节点正序入栈（和前序的逆序相反，最终收集顺序为根→右→左）
+		for i := 0; i < len(node.Children); i++ {
+			stack = append(stack, node.Children[i])
+		}
+	}
+
+	// 步骤2：反转结果，得到后序（左→右→根）
+	reverse(res)
+	return res
+}
+
+// 辅助函数：反转切片（极简实现）
+func reverse(arr []int) {
+	for i, j := 0, len(arr)-1; i < j; i, j = i+1, j-1 {
+		arr[i], arr[j] = arr[j], arr[i]
+	}
+}
+
+*/
+
+// lc429 N叉树的层序遍历
+func levelOrder429(root *Node) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	queue := []*Node{root}
+	results := make([][]int, 0)
+	for len(queue) > 0 {
+		curLen := len(queue)
+		curResult := make([]int, 0, curLen)
+		// 遍历当前层：仅访问前 curLen 个节点（后续append不影响）
+		for i := 0; i < curLen; i++ {
+			curResult = append(curResult, queue[i].Val)
+			// 子节点入队（追加到队列尾部）
+			for _, child := range queue[i].Children {
+				queue = append(queue, child)
+			}
+		}
+		results = append(results, curResult)
+		// 剔除当前层，保留子节点作为下一层
+		queue = queue[curLen:]
+	}
+	return results
 }

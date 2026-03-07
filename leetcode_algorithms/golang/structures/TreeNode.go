@@ -4,11 +4,19 @@ import (
 	"fmt"
 )
 
-//  Definition for a binary tree node.
+// Definition for a binary tree node.
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
+}
+
+/**
+ * Definition for a Node. N 叉树节点
+ */
+type Node struct {
+	Val      int
+	Children []*Node
 }
 
 // NULL 方便添加测试数据
